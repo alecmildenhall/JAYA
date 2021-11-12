@@ -21,6 +21,7 @@ public class Food {
         generator = "food_sequence"
     )
 
+    private Long rowID;
     private Long userID;
     private String foodName;
     private Long foodQuantity;
@@ -31,6 +32,15 @@ public class Food {
     }
     
     //constructor with all values defined
+    public Food(Long rowID, Long userID, String foodName, Long foodQuantity, Long coreQuantity){
+        this.rowID = rowID;
+        this.userID = userID;
+        this.foodName = foodName;
+        this.foodQuantity = foodQuantity;
+        this.coreQuantity = coreQuantity;
+    }
+
+    //constructor without rowID
     public Food(Long userID, String foodName, Long foodQuantity, Long coreQuantity){
         this.userID = userID;
         this.foodName = foodName;
@@ -39,10 +49,32 @@ public class Food {
     }
 
     //constructor without coreQuantity
-    public Food(Long userID, String foodName, Long foodQuantity){
+    public Food(Long rowID, Long userID, String foodName, Long foodQuantity){
+        this.rowID = rowID;
         this.userID = userID;
         this.foodName = foodName;
         this.foodQuantity = foodQuantity;
+    }
+
+    //constructor without rowID and coreQuantity
+    public Food( Long userID, String foodName, Long foodQuantity){
+        this.userID = userID;
+        this.foodName = foodName;
+        this.foodQuantity = foodQuantity;
+    }
+
+     /**
+     * @return Long return the userID
+     */
+    public Long getRowID() {
+        return rowID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setRowID(Long rowID) {
+        this.rowID = rowID;
     }
 
     /**
@@ -99,6 +131,16 @@ public class Food {
      */
     public void setCoreQuantity(Long coreQuantity) {
         this.coreQuantity = coreQuantity;
+    }
+
+    @Override
+    public String toString(){
+        return "Food{" +
+               "userID=" + userID +
+               ", foodName=" + foodName +
+               ", foodQuantity=" + foodQuantity +
+               ", coreQuantity=" + coreQuantity +
+               "}";
     }
 
 }

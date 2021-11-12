@@ -20,6 +20,14 @@ public class FridgeService {
     }
 
     public void addFoodItem(Food food){
+        List<Food> usersFood = fridgeRepository
+                .findUsersFood(food.getUserID());
+        for(Food f : usersFood) {
+            System.out.print(f.toString() + ", ");
+            if (food.getFoodName().equals(f.getFoodName())){
+                throw new IllegalStateException("food already in user's fridge. number needs to be updated");
+            }
+        }
         fridgeRepository.save(food);
     }
 }
