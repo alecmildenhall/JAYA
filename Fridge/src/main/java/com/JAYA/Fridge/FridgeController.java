@@ -17,7 +17,7 @@ public class FridgeController {
     }
 
     @GetMapping
-	public List<Fridge> getFridge(){
+	public List<Food> getFridge(){
         return fridgeService.getFridge();
 	}
     

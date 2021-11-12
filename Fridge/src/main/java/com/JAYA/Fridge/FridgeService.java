@@ -7,8 +7,7 @@ import java.util.*;
 
 @Service
 public class FridgeService {
-    public List<Fridge> getFridge(){
-        return List.of(new Fridge(1L, "Pumpkin", 35L, 30L));
+    public List<Food> getFridge(){
+        return List.of(new Food(1L, "Pumpkin", 3L, 3L));
     }
-    
 }
