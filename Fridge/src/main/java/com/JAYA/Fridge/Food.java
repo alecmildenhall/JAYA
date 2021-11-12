@@ -1,6 +1,26 @@
 package com.JAYA.Fridge;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table
 public class Food {
+    @Id
+    @SequenceGenerator(
+        name = "food_sequence",
+        sequenceName = "food_sequence",
+        allocationSize = 1
+    )
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,
+        generator = "food_sequence"
+    )
+
     private Long userID;
     private String foodName;
     private Long foodQuantity;
