@@ -81,3 +81,12 @@ buildNumber.properties
 # IntelliJ Idea
 .idea
 *.iml
+
+#bin
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
+*.settings/
