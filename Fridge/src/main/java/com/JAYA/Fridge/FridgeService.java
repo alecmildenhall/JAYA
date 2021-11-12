@@ -1,4 +1,5 @@
 package com.JAYA.Fridge;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -6,7 +7,19 @@ import java.util.*;
 
 @Service
 public class FridgeService {
+
+    private final FridgeRepository fridgeRepository;
+
+    @Autowired
+    public FridgeService(FridgeRepository fridgeRepository){
+        this.fridgeRepository = fridgeRepository;
+    }
+
     public List<Food> getFridge(){
-        return List.of(new Food(1L, "Pumpkin", 3L, 3L));
+        return fridgeRepository.findAll();
+    }
+
+    public void addFoodItem(Food food){
+        fridgeRepository.save(food);
     }
 }
