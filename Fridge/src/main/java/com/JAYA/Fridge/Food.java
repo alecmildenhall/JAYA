@@ -57,7 +57,7 @@ public class Food {
     }
 
     //constructor without rowID and coreQuantity
-    public Food( Long userID, String foodName, Long foodQuantity){
+    public Food(Long userID, String foodName, Long foodQuantity){
         this.userID = userID;
         this.foodName = foodName;
         this.foodQuantity = foodQuantity;

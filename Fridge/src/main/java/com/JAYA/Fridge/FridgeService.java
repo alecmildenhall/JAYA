@@ -39,4 +39,26 @@ public class FridgeService {
             fridgeRepository.save(food);
         }
     }
+
+    public void addCoreItem(Food food){
+        //checks if the user already has the item in their fridge
+        Optional <Food> usersFood = fridgeRepository
+                .findUsersFood(food.getFoodName(), food.getUserID());
+        //if they do, update the core quantity and don't change anything else
+        if (usersFood.isPresent()){
+            Food foodItem = usersFood.get();
+            //if they haven't specified a food quantity then keep it the same
+            Long foodQuan = food.getFoodQuantity();
+            if (foodQuan == null){
+                foodQuan = foodItem.getFoodQuantity();
+            }
+            //update the quantity of the item
+            fridgeRepository.updateUsersFood(foodQuan, food.getCoreQuantity(), foodItem.getRowID());
+            System.out.println(foodItem.toString());
+        }
+        //saves the food with the specifications given
+        else{
+            fridgeRepository.save(food);
+        }
+    }
 }

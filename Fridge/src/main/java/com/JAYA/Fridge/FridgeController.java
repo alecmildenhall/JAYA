@@ -28,5 +28,9 @@ public class FridgeController {
         fridgeService.addFoodItem(food);
 
     }
-    
+
+    @PostMapping
+    public void addCoreItem(@RequestBody Food food){
+        fridgeService.addCoreItem(food);
+    }
 }
