@@ -1,5 +1,6 @@
 package com.JAYA.Fridge;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -21,4 +22,7 @@ public interface FridgeRepository extends JpaRepository<Food, Long>{
     @Transactional
     @Query("UPDATE Food f SET f.foodQuantity = f.foodQuantity + ?1, f.coreQuantity = ?2 WHERE f.rowID = ?3")
     void updateUsersFood(Long foodQuantity, Long coreQuantity, Long rowId);
+
+    @Query("SELECT f FROM Food f WHERE f.userID = ?1")
+    List <Food> findUsersFridge(Long userID);
 }
