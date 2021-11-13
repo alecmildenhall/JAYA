@@ -20,14 +20,23 @@ public class FridgeService {
     }
 
     public void addFoodItem(Food food){
-        List<Food> usersFood = fridgeRepository
-                .findUsersFood(food.getUserID());
-        for(Food f : usersFood) {
-            System.out.print(f.toString() + ", ");
-            if (food.getFoodName().equals(f.getFoodName())){
-                throw new IllegalStateException("food already in user's fridge. number needs to be updated");
+        //checks if the user already has the item in their fridge
+        Optional <Food> usersFood = fridgeRepository
+                .findUsersFood(food.getFoodName(), food.getUserID());
+        //if they do, update the quantity but don't add new item
+        if (usersFood.isPresent()){
+            Food foodItem = usersFood.get();
+            //if they haven't specified a core quantity, keep it the same
+            Long core = food.getCoreQuantity();
+            if (core == null){
+                core = foodItem.getCoreQuantity();
             }
+            //update the quantity of the item
+            fridgeRepository.updateUsersFood(food.getFoodQuantity(), core, foodItem.getRowID());
+            System.out.println(foodItem.toString());
         }
-        fridgeRepository.save(food);
+        else{
+            fridgeRepository.save(food);
+        }
     }
 }
