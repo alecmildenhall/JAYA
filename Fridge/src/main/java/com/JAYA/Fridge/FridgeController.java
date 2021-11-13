@@ -23,14 +23,21 @@ public class FridgeController {
         return fridgeService.getFridge();
 	}
 
-    @PostMapping
+    @PostMapping(path = "/add-food")
     public void addFoodItem(@RequestBody Food food){
         fridgeService.addFoodItem(food);
 
     }
 
-    @PostMapping
+    @PostMapping(path = "/add-core")
     public void addCoreItem(@RequestBody Food food){
         fridgeService.addCoreItem(food);
     }
+
+    @PostMapping(path = "/missing-core")
+    public List<Food> missingCore(@RequestBody Long userID){
+        return fridgeService.missingCore(userID);
+    }
+
+    
 }
