@@ -12,7 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FridgeRepository extends JpaRepository<Food, Long>{
     @Query("SELECT f FROM Food f WHERE f.foodName = ?1 AND f.userID = ?2")
-    Optional <Food> findUsersFood( String FoodName, Long userID);
+    Optional <Food> findUsersFood(String FoodName, Long userID);
+
+    @Query("SELECT f FROM Food f WHERE f.userID = ?1")
+    Optional <Food> findFridge(Long userID);
 
     @Modifying
     @Transactional

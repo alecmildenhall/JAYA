@@ -2,9 +2,13 @@ package com.JAYA.Fridge;
 
 import javax.persistence.*;
 
+/*
 @Entity
 @Table
+*/
 public class User {
+
+    /*
     @Id
     @SequenceGenerator(
             name = "user_sequence",
@@ -15,6 +19,7 @@ public class User {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
+    */
 
     private Long userID;
     private String email;
