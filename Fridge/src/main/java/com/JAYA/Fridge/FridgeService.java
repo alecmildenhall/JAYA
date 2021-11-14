@@ -164,7 +164,7 @@ public class FridgeService {
         }
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         // checks if the user already exists
         List <User> users = userRepository
                 .findUser(user.getUserID());
@@ -177,5 +177,10 @@ public class FridgeService {
         else{
             System.out.println("user already exists");
         }
+    }
+
+    public void deleteUser(Long userID) {
+        userRepository.deleteUser(userID);
+        fridgeRepository.deleteUserFood(userID);
     }
 }
