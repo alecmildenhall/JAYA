@@ -16,18 +16,7 @@ public class FridgeController {
     }
 
     @GetMapping(path = "/get-fridge")
-	  public Optional<Food> getFridge(@RequestBody Long userID){ return fridgeService.getFridge(userID); }
-
-    @GetMapping(path = "/test")
-    public List<Food> test(@RequestBody Long userID) {
-        Food carrot1 = new Food(43L, "carrot", 3L, 4L);
-        Food carrot2 = new Food(43L, "potato", 3L, 4L);
-        ArrayList<Food> list = new ArrayList<>();
-        list.add(carrot1);
-        list.add(carrot2);
-
-        return list;
-    }
+	  public List<Food> getFridge(@RequestBody Long userID){ return fridgeService.getFridge(userID); }
 
     @PostMapping(path = "/add-food")
     public void addFoodItem(@RequestBody Food food){
@@ -45,8 +34,8 @@ public class FridgeController {
     }
   
     @DeleteMapping(path = "delete-food")
-    public void deleteFoodItem(@RequestBody Food food, @RequestBody long removedQuantity) {
-        fridgeService.deleteFoodItem(food, removedQuantity);
+    public void deleteFoodItem(@RequestBody Food food) {
+        fridgeService.deleteFoodItem(food);
     }
     
 }
