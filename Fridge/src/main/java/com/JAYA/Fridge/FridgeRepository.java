@@ -32,4 +32,9 @@ public interface FridgeRepository extends JpaRepository<Food, Long>{
 
     @Query("SELECT f FROM Food f WHERE f.userID = ?1")
     List <Food> findUsersFridge(Long userID);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Food f WHERE f.userID = ?1")
+    void deleteUserFood(Long userID);
 }
