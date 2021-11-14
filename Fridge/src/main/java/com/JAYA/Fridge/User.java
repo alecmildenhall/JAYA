@@ -17,7 +17,7 @@ public class User {
             generator = "user_sequence"
     )
 
-
+    private Long rowID;
     private Long userID;
     private String email;
     private String name;
@@ -28,7 +28,8 @@ public class User {
     }
 
     // constructor with all values defined
-    public User(Long userID, String email, String name) {
+    public User(Long rowID, Long userID, String email, String name) {
+        this.rowID = rowID;
         this.userID = userID;
         this.email = email;
         this.name = name;
@@ -79,5 +80,19 @@ public class User {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return Long return the rowID
+     */
+    public Long getRowID() {
+        return rowID;
+    }
+
+    /**
+     * @param rowID the rowID to set
+     */
+    public void setName(Long rowID) {
+        this.rowID = rowID;
     }
 }

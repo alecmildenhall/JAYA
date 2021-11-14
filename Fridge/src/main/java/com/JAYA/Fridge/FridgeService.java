@@ -9,10 +9,12 @@ import java.util.*;
 public class FridgeService {
 
     private final FridgeRepository fridgeRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public FridgeService(FridgeRepository fridgeRepository){
+    public FridgeService(FridgeRepository fridgeRepository, UserRepository userRepository){
         this.fridgeRepository = fridgeRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Food> getFridge(Long userID){
@@ -159,6 +161,21 @@ public class FridgeService {
         }
         else{
             System.out.println("Core item does not exist");
+        }
+    }
+
+    public void addUser(User user){
+        // checks if the user already exists
+        List <User> users = userRepository
+                .findUser(user.getUserID());
+        // if they don't, add user
+        if (users.size() == 0){
+
+            // add user
+            userRepository.save(user);
+        }
+        else{
+            System.out.println("user already exists");
         }
     }
 }

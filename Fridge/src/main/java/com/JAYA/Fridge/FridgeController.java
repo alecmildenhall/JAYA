@@ -42,4 +42,7 @@ public class FridgeController {
     public void deleteCoreItem(@RequestBody Food food) {
         fridgeService.deleteCoreItem(food);
     }
+    
+    @PostMapping(path = "add-user")
+    public void addUser(@RequestBody User user) { fridgeService.addUser(user); }
 }
