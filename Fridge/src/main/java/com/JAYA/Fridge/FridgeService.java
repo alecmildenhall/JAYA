@@ -96,7 +96,7 @@ public class FridgeService {
 
     /*
     Deletes desired amount of food item
-    Input: food to delete, number of items to delete
+    Input: food to delete, where foodQuantity = desired amount to delete
     Return: nothing, error messages if impossible request
      */
     public void deleteFoodItem(Food food){
@@ -118,11 +118,47 @@ public class FridgeService {
             }
 
             // Save updated food quantity to database
-            fridgeRepository.setUsersFood(currentQuantity, foodItem.getCoreQuantity(), foodItem.getRowID());
+            fridgeRepository.setUsersFood(currentQuantity, foodItem.getRowID());
             System.out.println(foodItem.toString());
         }
         else{
             System.out.println("Food item does not exist");
+        }
+    }
+
+    /*
+    Deletes desired amount of core food item
+    Input: core food to delete, where coreQuantity = desired amount to delete
+    Return: nothing, error messages if impossible request
+     */
+    public void deleteCoreItem(Food food){
+        // Check if the user has the item in their fridge
+        Optional <Food> usersFood = fridgeRepository
+                .findUsersFood(food.getFoodName(), food.getUserID());
+        // If food exists, remove desired amount from food quantity if possible
+        if (usersFood.isPresent()){
+            Food foodItem = usersFood.get();
+            Long currentQuantity = foodItem.getCoreQuantity();
+            if (currentQuantity == null) {
+                System.out.println("Food item has no core quantity");
+                return;
+            }
+            Long removedQuantity = food.getCoreQuantity();
+
+            // Update food quantity if possible
+            if (currentQuantity >= removedQuantity){
+                currentQuantity = foodItem.getCoreQuantity() - removedQuantity;
+            } else {
+                System.out.println("Not enough of core amount to delete desired quantity");
+                return;
+            }
+
+            // Save updated food quantity to database
+            fridgeRepository.setUsersCore(currentQuantity, foodItem.getRowID());
+            System.out.println(foodItem.toString());
+        }
+        else{
+            System.out.println("Core item does not exist");
         }
     }
 }
