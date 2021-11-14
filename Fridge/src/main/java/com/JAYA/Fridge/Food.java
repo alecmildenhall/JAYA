@@ -71,7 +71,7 @@ public class Food {
     }
 
     /**
-     * @param userID the userID to set
+     * @param rowID the rowID to set
      */
     public void setRowID(Long rowID) {
         this.rowID = rowID;
