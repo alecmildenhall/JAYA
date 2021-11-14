@@ -15,8 +15,8 @@ public class FridgeService {
         this.fridgeRepository = fridgeRepository;
     }
 
-    public List<Food> getFridge(){
-        return fridgeRepository.findAll();
+    public List<Food> getFridge(Long userID){
+        return fridgeRepository.findUsersFridge(userID);
     }
 
     public void addFoodItem(Food food){
@@ -92,5 +92,37 @@ public class FridgeService {
             return false;
         }
         return true;
+    }
+
+    /*
+    Deletes desired amount of food item
+
+    Input: food to delete, number of items to delete
+    Return: nothing, error messages if impossible request
+     */
+    public void deleteFoodItem(Food food, long removedQuantity){
+        // Check if the user has the item in their fridge
+        Optional <Food> usersFood = fridgeRepository
+                .findUsersFood(food.getFoodName(), food.getUserID());
+        // If food exists, remove desired amount from food quantity if possible
+        if (usersFood.isPresent()){
+            Food foodItem = usersFood.get();
+            Long currentQuantity = food.getFoodQuantity();
+
+            // Update food quantity if possible
+            if (currentQuantity >= removedQuantity){
+                currentQuantity = foodItem.getFoodQuantity() - removedQuantity;
+            } else {
+                System.out.println("Not enough food to delete desired quantity");
+                return;
+            }
+
+            // Save updated food quantity to database
+            fridgeRepository.updateUsersFood(food.getFoodQuantity(), currentQuantity, foodItem.getRowID());
+            System.out.println(foodItem.toString());
+        }
+        else{
+            System.out.println("Food item does not exist");
+        }
     }
 }
