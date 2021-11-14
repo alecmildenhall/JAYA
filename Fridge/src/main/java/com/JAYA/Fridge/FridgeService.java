@@ -100,14 +100,15 @@ public class FridgeService {
     Input: food to delete, number of items to delete
     Return: nothing, error messages if impossible request
      */
-    public void deleteFoodItem(Food food, long removedQuantity){
+    public void deleteFoodItem(Food food){
         // Check if the user has the item in their fridge
         Optional <Food> usersFood = fridgeRepository
                 .findUsersFood(food.getFoodName(), food.getUserID());
         // If food exists, remove desired amount from food quantity if possible
         if (usersFood.isPresent()){
             Food foodItem = usersFood.get();
-            Long currentQuantity = food.getFoodQuantity();
+            Long currentQuantity = foodItem.getFoodQuantity();
+            Long removedQuantity = food.getFoodQuantity();
 
             // Update food quantity if possible
             if (currentQuantity >= removedQuantity){
@@ -118,7 +119,7 @@ public class FridgeService {
             }
 
             // Save updated food quantity to database
-            fridgeRepository.updateUsersFood(food.getFoodQuantity(), currentQuantity, foodItem.getRowID());
+            fridgeRepository.setUsersFood(currentQuantity, foodItem.getCoreQuantity(), foodItem.getRowID());
             System.out.println(foodItem.toString());
         }
         else{
