@@ -37,5 +37,9 @@ public class FridgeController {
     public void deleteFoodItem(@RequestBody Food food) {
         fridgeService.deleteFoodItem(food);
     }
-    
+
+    @DeleteMapping(path = "delete-core")
+    public void deleteCoreItem(@RequestBody Food food) {
+        fridgeService.deleteCoreItem(food);
+    }
 }
