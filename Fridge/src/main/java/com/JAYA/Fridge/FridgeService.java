@@ -96,7 +96,6 @@ public class FridgeService {
 
     /*
     Deletes desired amount of food item
-
     Input: food to delete, number of items to delete
     Return: nothing, error messages if impossible request
      */
