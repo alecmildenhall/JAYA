@@ -15,8 +15,8 @@ public class FridgeService {
         this.fridgeRepository = fridgeRepository;
     }
 
-    public Optional<Food> getFridge(Long userID){
-        return fridgeRepository.findFridge(userID);
+    public List<Food> getFridge(Long userID){
+        return fridgeRepository.findUsersFridge(userID);
     }
 
     public void addFoodItem(Food food){

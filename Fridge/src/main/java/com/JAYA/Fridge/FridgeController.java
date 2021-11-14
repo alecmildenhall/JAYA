@@ -16,7 +16,7 @@ public class FridgeController {
     }
 
     @GetMapping(path = "/get-fridge")
-	  public Optional<Food> getFridge(@RequestBody Long userID){ return fridgeService.getFridge(userID); }
+	  public List<Food> getFridge(@RequestBody Long userID){ return fridgeService.getFridge(userID); }
 
     @GetMapping(path = "/test")
     public List<Food> test(@RequestBody Long userID) {
