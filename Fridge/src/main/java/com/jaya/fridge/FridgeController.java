@@ -16,6 +16,11 @@ public class FridgeController {
     this.fridgeService = fridgeService;
   }
 
+  @GetMapping(path = "/hello")
+  public String hello() {
+    return "Hello World!";
+  }
+
   @GetMapping(path = "/get-fridge")
   public List<Food> getFridge(@RequestBody Long userID) {
     return fridgeService.getFridge(userID);
@@ -37,8 +42,8 @@ public class FridgeController {
   }
 
   @PostMapping(path = "user/{userId}/food/{foodName}/update")
-  public void updateFood(@RequestBody UpdateQuantity update, @PathVariable Long userId, @PathVariable String foodName) {
-    fridgeService.updateFood(update, userId, foodName);
+  public Food updateFood(@RequestBody UpdateQuantity update, @PathVariable Long userId, @PathVariable String foodName) {
+    return fridgeService.updateFood(update, userId, foodName);
   }
 
   @DeleteMapping(path = "user/{userId}/food/{foodName}")
