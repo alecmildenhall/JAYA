@@ -1,4 +1,4 @@
-package com.JAYA.Fridge;
+package com.jaya.fridge;
 
 import java.util.List;
 
