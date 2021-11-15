@@ -179,4 +179,30 @@ public class FridgeService {
     userRepository.deleteUser(userID);
     fridgeRepository.deleteUserFood(userID);
   }
+
+  private long longOrNullToLong(Long x) {
+    return x == null ? 0 : x;
+  }
+
+  public void updateFood(DeltaQuantity delta, Long userId, String foodName) {
+    Optional<Food> usersFood = fridgeRepository
+        .findUsersFood(foodName, userId);
+    //if they do, update the quantity but don't add new item
+    if (usersFood.isPresent()) {
+      Food foodItem = usersFood.get();
+
+      //update the quantity of the item
+      fridgeRepository.addDeltaUsersFood(
+          longOrNullToLong(delta.getDeltaFoodQuantity()),
+          longOrNullToLong(delta.getDeltaCoreQuantity()),
+          foodItem.getRowId()
+      );
+
+    } else {
+      Food newFood = new Food(userId, foodName, delta.getDeltaFoodQuantity(), delta.getDeltaCoreQuantity());
+      fridgeRepository.save(newFood);
+      System.out.println(hasCoreFood(newFood));
+    }
+
+  }
 }

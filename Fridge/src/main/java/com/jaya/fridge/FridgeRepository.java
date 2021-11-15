@@ -23,6 +23,11 @@ public interface FridgeRepository extends JpaRepository<Food, Long> {
 
   @Modifying
   @Transactional
+  @Query("UPDATE Food f SET f.foodQuantity = f.foodQuantity + ?1, f.coreQuantity = f.coreQuantity + ?2 WHERE f.rowId = ?3")
+  void addDeltaUsersFood(Long deltaFoodQuantity, Long deltaCoreQuantity, Long rowId);
+
+  @Modifying
+  @Transactional
   @Query("UPDATE Food f SET f.foodQuantity = ?1 WHERE f.rowId = ?2")
   void setUsersFood(Long foodQuantity, Long rowId);
 
