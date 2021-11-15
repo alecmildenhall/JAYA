@@ -133,6 +133,14 @@ public class Food {
     this.coreQuantity = coreQuantity;
   }
 
+  public boolean isDeletable() {
+    if((this.getFoodQuantity() == null || this.getFoodQuantity() == 0) &&
+        (this.getCoreQuantity() == null || this.getCoreQuantity() == 0)) {
+      return true;
+    }
+    return false;
+  }
+
   @Override
   public String toString() {
     return "Food{" +

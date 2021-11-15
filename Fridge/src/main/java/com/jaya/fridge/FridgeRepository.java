@@ -38,4 +38,9 @@ public interface FridgeRepository extends JpaRepository<Food, Long> {
   @Transactional
   @Query("DELETE FROM Food f WHERE f.userId = ?1")
   void deleteUserFood(Long userID);
+
+  @Modifying(flushAutomatically = true, clearAutomatically = true)
+  @Transactional
+  @Query("DELETE FROM Food f WHERE f.userId = ?1 AND f.foodName = ?2")
+  void deleteUserFood(Long userId, String foodName);
 }
