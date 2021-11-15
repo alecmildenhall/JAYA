@@ -27,13 +27,8 @@ public class FridgeController {
   }
 
   @PostMapping(path = "/update-food")
-  public Food addFoodItem(@RequestBody Food food) {
+  public Food updateFood(@RequestBody Food food) {
     return fridgeService.updateFood(food);
-  }
-
-  @PostMapping(path = "/add-core")
-  public Food addCoreItem(@RequestBody Food food) {
-    return fridgeService.addCoreItem(food);
   }
 
   @PostMapping(path = "/missing-core")

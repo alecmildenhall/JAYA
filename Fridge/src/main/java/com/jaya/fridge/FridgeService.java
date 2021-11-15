@@ -38,72 +38,33 @@ public class FridgeService {
       Long foodQuan = food.getFoodQuantity();
       if (core == null) {
         food.setCoreQuantity(0L);
-        //if the core hasn't been set yet in the db, make it 0
-        if(foodItem.getCoreQuantity() == null){
-          core = 0L;
-          foodItem.setCoreQuantity(0L);
-        }
-         //else make core the original quantity in the db
-        else{
-          core = foodItem.getCoreQuantity();
-        }
+        core = foodItem.getCoreQuantity();
       }
       if (foodQuan == null){
         food.setFoodQuantity(0L);
-        //if the food quantity hasn't been set yet in the db, make foodQuan 0
-        if(foodItem.getFoodQuantity() == null){
-          foodQuan = 0L;
-          foodItem.setFoodQuantity(0L);
-        }
-        //else make foodQuan the original quantity in the db
-        else{
-          foodQuan = foodItem.getFoodQuantity();
-        }
+        foodQuan = foodItem.getFoodQuantity();
       }
     
       //update the quantity of the item
       fridgeRepository.updateUsersFood(foodQuan, core, foodItem.getRowId());
-      System.out.println(food.getFoodQuantity());
-      System.out.println(core);
-      System.out.println(foodItem.getRowId());
 
+      //check if the updated item is still within the core quantity bounds
       Food f = new Food(foodItem.getRowId(), food.getUserId(), food.getFoodName(),
-          food.getFoodQuantity() + foodItem.getFoodQuantity(), 
-          food.getCoreQuantity() + foodItem.getCoreQuantity());
+          food.getFoodQuantity() + foodItem.getFoodQuantity(), core);
       System.out.println(f.toString());
       System.out.println(hasCoreFood(f));
       return f;
       
     } 
     else {
-      fridgeRepository.save(food);
-      System.out.println(hasCoreFood(food));
-      return food;
-    }
-  }
-
-  public Food addCoreItem(Food food) {
-    //checks if the user already has the item in their fridge
-    Optional<Food> usersFood = fridgeRepository
-        .findUsersFood(food.getFoodName(), food.getUserId());
-    //if they do, update the core quantity and don't change anything else
-    if (usersFood.isPresent()) {
-      Food foodItem = usersFood.get();
-      //if they haven't specified a food quantity then keep it the same
-      Long foodQuan = food.getFoodQuantity();
-      if (foodQuan == null) {
-        foodQuan = 0L;
+      //if either food or core quantity was null, change it to 0
+      if(food.getFoodQuantity() == null){
+        food.setFoodQuantity(0L);
       }
-      //update the quantity of the item
-      fridgeRepository.updateUsersFood(foodQuan, food.getCoreQuantity(), foodItem.getRowId());
-      Food f = new Food(food.getRowId(), food.getUserId(), food.getFoodName(),
-          foodQuan, food.getCoreQuantity());
-      System.out.println(hasCoreFood(f));
-      return f;
-
-    }
-    //saves the food with the specifications given
-    else {
+      if(food.getCoreQuantity() == null){
+        food.setCoreQuantity(0L);
+      }
+      //save the food in the db
       fridgeRepository.save(food);
       System.out.println(hasCoreFood(food));
       return food;
