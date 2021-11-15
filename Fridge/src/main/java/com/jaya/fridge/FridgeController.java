@@ -57,7 +57,7 @@ public class FridgeController {
   }
 
   @PostMapping(path = "user/{userId}/food/{foodName}/update")
-  public void updateFood(@RequestBody DeltaQuantity delta, @PathVariable Long userId, @PathVariable String foodName) {
+  public void updateFood(@RequestBody UpdateQuantity delta, @PathVariable Long userId, @PathVariable String foodName) {
     fridgeService.updateFood(delta, userId, foodName);
 //    System.out.println("delta: " + delta);
 //    System.out.println("userId: " + userId);

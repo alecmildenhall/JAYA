@@ -184,7 +184,7 @@ public class FridgeService {
     return x == null ? 0 : x;
   }
 
-  public void updateFood(DeltaQuantity delta, Long userId, String foodName) {
+  public void updateFood(UpdateQuantity delta, Long userId, String foodName) {
     Optional<Food> usersFood = fridgeRepository
         .findUsersFood(foodName, userId);
     //if they do, update the quantity but don't add new item
@@ -192,14 +192,14 @@ public class FridgeService {
       Food foodItem = usersFood.get();
 
       //update the quantity of the item
-      fridgeRepository.addDeltaUsersFood(
+      fridgeRepository.updateUsersFood (
           longOrNullToLong(delta.getDeltaFoodQuantity()),
-          longOrNullToLong(delta.getDeltaCoreQuantity()),
+          delta.getNewCoreQuantity() == null ? foodItem.getCoreQuantity() : delta.getNewCoreQuantity(),
           foodItem.getRowId()
       );
 
     } else {
-      Food newFood = new Food(userId, foodName, delta.getDeltaFoodQuantity(), delta.getDeltaCoreQuantity());
+      Food newFood = new Food(userId, foodName, delta.getDeltaFoodQuantity(), delta.getNewCoreQuantity());
       fridgeRepository.save(newFood);
       System.out.println(hasCoreFood(newFood));
     }

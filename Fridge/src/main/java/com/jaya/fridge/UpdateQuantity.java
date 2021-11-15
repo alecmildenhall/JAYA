@@ -1,16 +1,16 @@
 package com.jaya.fridge;
 
-public class DeltaQuantity {
+public class UpdateQuantity {
   private Long deltaFoodQuantity;
-  private Long deltaCoreQuantity;
+  private Long newCoreQuantity;
 
-  public DeltaQuantity() {
+  public UpdateQuantity() {
 
   }
 
-  public DeltaQuantity(Long deltaFoodQuantity, Long coreQuantity) {
+  public UpdateQuantity(Long deltaFoodQuantity, Long coreQuantity) {
     this.deltaFoodQuantity = deltaFoodQuantity;
-    this.deltaCoreQuantity = coreQuantity;
+    this.newCoreQuantity = coreQuantity;
   }
 
   public Long getDeltaFoodQuantity() {
@@ -21,19 +21,19 @@ public class DeltaQuantity {
     this.deltaFoodQuantity = deltaFoodQuantity;
   }
 
-  public Long getDeltaCoreQuantity() {
-    return deltaCoreQuantity;
+  public Long getNewCoreQuantity() {
+    return newCoreQuantity;
   }
 
-  public void setDeltaCoreQuantity(Long deltaCoreQuantity) {
-    this.deltaCoreQuantity = deltaCoreQuantity;
+  public void setNewCoreQuantity(Long newCoreQuantity) {
+    this.newCoreQuantity = newCoreQuantity;
   }
 
   @Override
   public String toString() {
     return "DeltaQuantity{" +
         "deltaFoodQuantity=" + deltaFoodQuantity +
-        ", deltaCoreQuantity=" + deltaCoreQuantity +
+        ", deltaCoreQuantity=" + newCoreQuantity +
         '}';
   }
 }
