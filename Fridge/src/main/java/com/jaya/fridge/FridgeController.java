@@ -21,13 +21,18 @@ public class FridgeController {
     return fridgeService.getFridge(userID);
   }
 
-  @PostMapping(path = "/add-food")
-  public Boolean addFoodItem(@RequestBody Food food) {
-    return fridgeService.addFoodItem(food);
+  @GetMapping(path = "/get-all")
+  public List<Food> getFridgeAll() {
+    return fridgeService.getFridgeAll();
+  }
+
+  @PostMapping(path = "/update-food")
+  public Food addFoodItem(@RequestBody Food food) {
+    return fridgeService.updateFood(food);
   }
 
   @PostMapping(path = "/add-core")
-  public Boolean addCoreItem(@RequestBody Food food) {
+  public Food addCoreItem(@RequestBody Food food) {
     return fridgeService.addCoreItem(food);
   }
 

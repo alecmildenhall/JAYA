@@ -22,32 +22,67 @@ public class FridgeService {
     return fridgeRepository.findUsersFridge(userID);
   }
 
-  public Boolean addFoodItem(Food food) {
+  public List<Food> getFridgeAll() {
+    return fridgeRepository.findAll();
+  }
+
+  public Food updateFood(Food food) {
     //checks if the user already has the item in their fridge
     Optional<Food> usersFood = fridgeRepository
         .findUsersFood(food.getFoodName(), food.getUserId());
-    //if they do, update the quantity but don't add new item
+    //if they do, update it but don't add new item
     if (usersFood.isPresent()) {
       Food foodItem = usersFood.get();
-      //if they haven't specified a core quantity, keep it the same
+      //if they haven't specified a core quantity or foodQuantity, keep it the same
       Long core = food.getCoreQuantity();
+      Long foodQuan = food.getFoodQuantity();
       if (core == null) {
-        core = foodItem.getCoreQuantity();
+        food.setCoreQuantity(0L);
+        //if the core hasn't been set yet in the db, make it 0
+        if(foodItem.getCoreQuantity() == null){
+          core = 0L;
+          foodItem.setCoreQuantity(0L);
+        }
+         //else make core the original quantity in the db
+        else{
+          core = foodItem.getCoreQuantity();
+        }
       }
+      if (foodQuan == null){
+        food.setFoodQuantity(0L);
+        //if the food quantity hasn't been set yet in the db, make foodQuan 0
+        if(foodItem.getFoodQuantity() == null){
+          foodQuan = 0L;
+          foodItem.setFoodQuantity(0L);
+        }
+        //else make foodQuan the original quantity in the db
+        else{
+          foodQuan = foodItem.getFoodQuantity();
+        }
+      }
+    
       //update the quantity of the item
-      fridgeRepository.updateUsersFood(food.getFoodQuantity(), core, foodItem.getRowId());
+      fridgeRepository.updateUsersFood(foodQuan, core, foodItem.getRowId());
+      System.out.println(food.getFoodQuantity());
+      System.out.println(core);
+      System.out.println(foodItem.getRowId());
 
-      Food f = new Food(food.getRowId(), food.getUserId(), food.getFoodName(),
-          food.getFoodQuantity() + foodItem.getFoodQuantity(), core);
+      Food f = new Food(foodItem.getRowId(), food.getUserId(), food.getFoodName(),
+          food.getFoodQuantity() + foodItem.getFoodQuantity(), 
+          food.getCoreQuantity() + foodItem.getCoreQuantity());
+      System.out.println(f.toString());
       System.out.println(hasCoreFood(f));
-    } else {
+      return f;
+      
+    } 
+    else {
       fridgeRepository.save(food);
       System.out.println(hasCoreFood(food));
+      return food;
     }
-    return true;
   }
 
-  public Boolean addCoreItem(Food food) {
+  public Food addCoreItem(Food food) {
     //checks if the user already has the item in their fridge
     Optional<Food> usersFood = fridgeRepository
         .findUsersFood(food.getFoodName(), food.getUserId());
@@ -64,13 +99,15 @@ public class FridgeService {
       Food f = new Food(food.getRowId(), food.getUserId(), food.getFoodName(),
           foodQuan, food.getCoreQuantity());
       System.out.println(hasCoreFood(f));
+      return f;
+
     }
     //saves the food with the specifications given
     else {
       fridgeRepository.save(food);
       System.out.println(hasCoreFood(food));
+      return food;
     }
-    return true;
   }
 
   //returns a list of foods that are below their core quantity amount
@@ -125,6 +162,7 @@ public class FridgeService {
       System.out.println(foodItem.toString());
     } else {
       System.out.println("Food item does not exist");
+      return false;
     }
     return true;
   }
@@ -161,6 +199,7 @@ public class FridgeService {
       System.out.println(foodItem.toString());
     } else {
       System.out.println("Core item does not exist");
+      return false;
     }
     return true;
   }
@@ -176,6 +215,7 @@ public class FridgeService {
       userRepository.save(user);
     } else {
       System.out.println("user already exists");
+      return false;
     }
     return true;
   }
