@@ -22,13 +22,13 @@ public class FridgeController {
   }
 
   @PostMapping(path = "/add-food")
-  public void addFoodItem(@RequestBody Food food) {
-    fridgeService.addFoodItem(food);
+  public Boolean addFoodItem(@RequestBody Food food) {
+    return fridgeService.addFoodItem(food);
   }
 
   @PostMapping(path = "/add-core")
-  public void addCoreItem(@RequestBody Food food) {
-    fridgeService.addCoreItem(food);
+  public Boolean addCoreItem(@RequestBody Food food) {
+    return fridgeService.addCoreItem(food);
   }
 
   @PostMapping(path = "/missing-core")
@@ -37,22 +37,22 @@ public class FridgeController {
   }
 
   @DeleteMapping(path = "delete-food")
-  public void deleteFoodItem(@RequestBody Food food) {
-    fridgeService.deleteFoodItem(food);
+  public Boolean deleteFoodItem(@RequestBody Food food) {
+    return fridgeService.deleteFoodItem(food);
   }
 
   @DeleteMapping(path = "delete-core")
-  public void deleteCoreItem(@RequestBody Food food) {
-    fridgeService.deleteCoreItem(food);
+  public Boolean deleteCoreItem(@RequestBody Food food) {
+    return fridgeService.deleteCoreItem(food);
   }
 
   @PostMapping(path = "add-user")
-  public void addUser(@RequestBody User user) {
-    fridgeService.addUser(user);
+  public Boolean addUser(@RequestBody User user) {
+    return fridgeService.addUser(user);
   }
 
   @DeleteMapping(path = "delete-user")
-  public void deleteUser(@RequestBody Long userID) {
-    fridgeService.deleteUser(userID);
+  public Boolean deleteUser(@RequestBody Long userID) {
+    return fridgeService.deleteUser(userID);
   }
 }

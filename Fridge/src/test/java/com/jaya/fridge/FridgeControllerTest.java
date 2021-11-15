@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(FridgeController.class)
-public class FridgeApplicationTests {
+public class FridgeControllerTest {
 
     @Autowired
     private WebApplicationContext context;
