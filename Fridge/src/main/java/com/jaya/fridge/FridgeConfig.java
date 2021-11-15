@@ -11,7 +11,6 @@ public class FridgeConfig {
     @Bean
     CommandLineRunner commandLineRunner(FridgeRepository repository){
         return args -> {
-
         };
     }
 }

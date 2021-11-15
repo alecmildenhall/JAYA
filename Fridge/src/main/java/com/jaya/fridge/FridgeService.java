@@ -26,51 +26,6 @@ public class FridgeService {
     return fridgeRepository.findAll();
   }
 
-  public Food updateFood(Food food) {
-    //checks if the user already has the item in their fridge
-    Optional<Food> usersFood = fridgeRepository
-        .findUsersFood(food.getFoodName(), food.getUserId());
-    //if they do, update it but don't add new item
-    if (usersFood.isPresent()) {
-      Food foodItem = usersFood.get();
-      //if they haven't specified a core quantity or foodQuantity, keep it the same
-      Long core = food.getCoreQuantity();
-      Long foodQuan = food.getFoodQuantity();
-      if (core == null) {
-        food.setCoreQuantity(0L);
-        core = foodItem.getCoreQuantity();
-      }
-      if (foodQuan == null){
-        food.setFoodQuantity(0L);
-        foodQuan = foodItem.getFoodQuantity();
-      }
-    
-      //update the quantity of the item
-      fridgeRepository.updateUsersFood(foodQuan, core, foodItem.getRowId());
-
-      //check if the updated item is still within the core quantity bounds
-      Food f = new Food(foodItem.getRowId(), food.getUserId(), food.getFoodName(),
-          food.getFoodQuantity() + foodItem.getFoodQuantity(), core);
-      System.out.println(f.toString());
-      System.out.println(hasCoreFood(f));
-      return f;
-      
-    } 
-    else {
-      //if either food or core quantity was null, change it to 0
-      if(food.getFoodQuantity() == null){
-        food.setFoodQuantity(0L);
-      }
-      if(food.getCoreQuantity() == null){
-        food.setCoreQuantity(0L);
-      }
-      //save the food in the db
-      fridgeRepository.save(food);
-      System.out.println(hasCoreFood(food));
-      return food;
-    }
-  }
-
   //returns a list of foods that are below their core quantity amount
   public List<Food> missingCore(Long userID) {
     //gets all food in the user's fridge
@@ -185,5 +140,36 @@ public class FridgeService {
     userRepository.deleteUser(userID);
     fridgeRepository.deleteUserFood(userID);
     return true;
+  }
+
+  private long longOrNullToLong(Long x) {
+    return x == null ? 0 : x;
+  }
+
+  public Food updateFood(UpdateQuantity delta, Long userId, String foodName) {
+    Optional<Food> usersFood = fridgeRepository
+        .findUsersFood(foodName, userId);
+    //if they do, update the quantity but don't add new item
+    if (usersFood.isPresent()) {
+      Food foodItem = usersFood.get();
+
+      //update the quantity of the item
+      fridgeRepository.updateUsersFood (
+          longOrNullToLong(delta.getDeltaFoodQuantity()),
+          delta.getNewCoreQuantity() == null ? foodItem.getCoreQuantity() : delta.getNewCoreQuantity(),
+          foodItem.getRowId()
+      );
+
+
+    } else {
+      Food newFood = new Food(userId, foodName, delta.getDeltaFoodQuantity(), delta.getNewCoreQuantity());
+      fridgeRepository.save(newFood);
+      System.out.println(hasCoreFood(newFood));
+    }
+
+    Optional<Food> updatedFood = fridgeRepository
+        .findUsersFood(foodName, userId);
+    return updatedFood.get();
+
   }
 }
