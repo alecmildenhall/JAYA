@@ -135,3 +135,7 @@ A UpdateQuantity object that represents the desired quantity change must be give
 ```
 
 # API Documentation
+
+## Get a specified user's fridge
+
+### GET /api/v1/fridge/get-fridge
