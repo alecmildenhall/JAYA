@@ -18,8 +18,8 @@ public class FridgeService {
     this.userRepository = userRepository;
   }
 
-  public List<Food> getFridge(Long userID) {
-    return fridgeRepository.findUsersFridge(userID);
+  public List<Food> getFridge(Long userId) {
+    return fridgeRepository.findUsersFridge(userId);
   }
 
   public List<Food> getFridgeAll() {
@@ -27,9 +27,9 @@ public class FridgeService {
   }
 
   //returns a list of foods that are below their core quantity amount
-  public List<Food> missingCore(Long userID) {
+  public List<Food> missingCore(Long userId) {
     //gets all food in the user's fridge
-    List<Food> usersFridge = fridgeRepository.findUsersFridge(userID);
+    List<Food> usersFridge = fridgeRepository.findUsersFridge(userId);
     List<Food> missingCore = new ArrayList<>();
     //calls hasCoreFood for each food
     for (Food f : usersFridge) {
@@ -66,9 +66,9 @@ public class FridgeService {
     return true;
   }
 
-  public Boolean deleteUser(Long userID) {
-    userRepository.deleteUser(userID);
-    fridgeRepository.deleteUserFood(userID);
+  public Boolean deleteUser(Long userId) {
+    userRepository.deleteUser(userId);
+    fridgeRepository.deleteUserFood(userId);
     return true;
   }
 

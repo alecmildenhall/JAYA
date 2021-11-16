@@ -48,8 +48,8 @@ public class User {
   /**
    * @param userID the userID to set
    */
-  public void setUserId(Long userID) {
-    this.userId = userID;
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 
   /**
