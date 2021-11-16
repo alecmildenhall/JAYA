@@ -1,27 +1,18 @@
 package com.jaya.fridge;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 @DataJpaTest
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class FridgeServiceTests {
-  @Autowired
-  private TestEntityManager entityManager;
 
   @Autowired
   private FridgeRepository fridgeRepository;
@@ -106,7 +97,6 @@ public class FridgeServiceTests {
 
     Food food1 = new Food(1234L, "chocolate", 5L, 7L);
     Food food2 = new Food(1234L, "cherry", 10L, 30L);
-    Food food3 = new Food(1234L, "test", 10L, 30L);
 
     ArrayList<Food> list = new ArrayList<>();
     list.add(food1);
