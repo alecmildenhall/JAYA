@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface FridgeRepository extends JpaRepository<Food, Long> {
 
   @Query("SELECT f FROM Food f WHERE f.foodName = ?1 AND f.userId = ?2")
-  Optional<Food> findUsersFood(String FoodName, Long userID);
+  Optional<Food> findUsersFood(String FoodName, Long userId);
 
   @Modifying(flushAutomatically = true, clearAutomatically = true)
   @Transactional
@@ -32,15 +32,10 @@ public interface FridgeRepository extends JpaRepository<Food, Long> {
   void setUsersCore(Long coreQuantity, Long rowId);
 
   @Query("SELECT f FROM Food f WHERE f.userId = ?1")
-  List<Food> findUsersFridge(Long userID);
+  List<Food> findUsersFridge(Long userId);
 
   @Modifying(flushAutomatically = true, clearAutomatically = true)
   @Transactional
   @Query("DELETE FROM Food f WHERE f.userId = ?1")
-  void deleteUserFood(Long userID);
-
-  @Modifying(flushAutomatically = true, clearAutomatically = true)
-  @Transactional
-  @Query("DELETE FROM Food f WHERE f.userId = ?1 AND f.foodName = ?2")
-  void deleteUserFood(Long userId, String foodName);
+  void deleteUserFood(Long userId);
 }

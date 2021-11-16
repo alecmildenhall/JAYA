@@ -17,8 +17,8 @@ public class FridgeController {
   }
 
   @GetMapping(path = "/get-fridge")
-  public List<Food> getFridge(@RequestBody Long userID) {
-    return fridgeService.getFridge(userID);
+  public List<Food> getFridge(@RequestBody Long userId) {
+    return fridgeService.getFridge(userId);
   }
 
   @GetMapping(path = "/get-all")
@@ -27,8 +27,8 @@ public class FridgeController {
   }
 
   @PostMapping(path = "/missing-core")
-  public List<Food> missingCore(@RequestBody Long userID) {
-    return fridgeService.missingCore(userID);
+  public List<Food> missingCore(@RequestBody Long userId) {
+    return fridgeService.missingCore(userId);
   }
 
   @DeleteMapping(path = "user/{userId}/food/{foodName}/delete")
