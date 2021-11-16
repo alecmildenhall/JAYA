@@ -16,6 +16,11 @@ public class FridgeController {
     this.fridgeService = fridgeService;
   }
 
+  @GetMapping(path = "/hello")
+  public String hello() {
+    return "Hello World!";
+  }
+
   @GetMapping(path = "/get-fridge")
   public List<Food> getFridge(@RequestBody Long userID) {
     return fridgeService.getFridge(userID);

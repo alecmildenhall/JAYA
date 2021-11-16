@@ -1,66 +1,36 @@
 package com.jaya.fridge;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.RequestBuilder;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
+@AutoConfigureTestDatabase
+@AutoConfigureMockMvc
 public class FridgeControllerTests {
+  @Test
+  void helloWorldTest(@Autowired MockMvc mvc) throws Exception {
+    mvc.perform(get("/api/v1/fridge/hello"))
+        .andExpect(status().isOk())
+        .andExpect(content().string("Hello World!"));
+  }
 
-    private MockMvc mvc;
-
-    @InjectMocks
-    private FridgeController fridgecontroller;
-
-    // ObjectMapper om = new ObjectMapper();
-
-    @Before
-    public void setUp() throws Exception{
-        mvc = MockMvcBuilders.standaloneSetup(fridgecontroller).build();
-    }
-    
-    // @Test
-	// public void addFoodItemTest() throws Exception{
-    //     Food food = new Food();
-    //     food.setUserId(1L);
-    //     food.setFoodName("cake");
-    //     food.setFoodQuantity(1L);
-    //     food.setCoreQuantity(1L);
-    //     String jsonRequest = om.writeValueAsString(food);
-    //     MvcResult result = mvc.perform(post("/api/v1/fridge/add-food")
-    //     .content(jsonRequest).content(MediaType.APPLICATION_JSON_VALUE))
-    //     .andExpect(status().isOk()).andReturn();
-    //     String resultContent = result.getResponse().getContentAsString();
-    //     assertEquals(resultContent, "true");
-    
-    // }
-
-    @Test
-	public void getFridgeTest() throws Exception{
-        mvc.perform(MockMvcRequestBuilders.get("/api/v1/fridge/get-fridge"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().string("hello"));
-    
-    }
-        
+  @Test
+  void updateFoodTest(@Autowired MockMvc mvc) throws Exception {
+    mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
+            .content("{\"deltaFoodQuantity\": 42, \"newCoreQuantity\": 5}")
+            .contentType("application/json"))
+        .andExpect(status().isOk())
+        .andExpect(content().json("{\"userId\": 1234, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}"));
+  }
 }
-
