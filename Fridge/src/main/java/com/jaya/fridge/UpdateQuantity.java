@@ -8,9 +8,9 @@ public class UpdateQuantity {
 
   }
 
-  public UpdateQuantity(Long deltaFoodQuantity, Long coreQuantity) {
+  public UpdateQuantity(Long deltaFoodQuantity, Long newCoreQuantity) {
     this.deltaFoodQuantity = deltaFoodQuantity;
-    this.newCoreQuantity = coreQuantity;
+    this.newCoreQuantity = newCoreQuantity;
   }
 
   public Long getDeltaFoodQuantity() {

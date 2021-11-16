@@ -50,76 +50,6 @@ public class FridgeService {
     return true;
   }
 
-  /*
-  Deletes desired amount of food item
-  Input: food to delete, where foodQuantity = desired amount to delete
-  Return: Boolean, error messages if impossible request
-   */
-  public Boolean deleteFoodItem(Food food) {
-    // Check if the user has the item in their fridge
-    Optional<Food> usersFood = fridgeRepository
-        .findUsersFood(food.getFoodName(), food.getUserId());
-    // If food exists, remove desired amount from food quantity if possible
-    if (usersFood.isPresent()) {
-      Food foodItem = usersFood.get();
-      Long currentQuantity = foodItem.getFoodQuantity();
-      Long removedQuantity = food.getFoodQuantity();
-
-      // Update food quantity if possible
-      if (currentQuantity >= removedQuantity) {
-        currentQuantity = foodItem.getFoodQuantity() - removedQuantity;
-      } else {
-        System.out.println("Not enough food to delete desired quantity");
-        return false;
-      }
-
-      // Save updated food quantity to database
-      fridgeRepository.setUsersFood(currentQuantity, foodItem.getRowId());
-      System.out.println(foodItem.toString());
-    } else {
-      System.out.println("Food item does not exist");
-      return false;
-    }
-    return true;
-  }
-
-  /*
-  Deletes desired amount of core food item
-  Input: core food to delete, where coreQuantity = desired amount to delete
-  Return: nothing, error messages if impossible request
-   */
-  public Boolean deleteCoreItem(Food food) {
-    // Check if the user has the item in their fridge
-    Optional<Food> usersFood = fridgeRepository
-        .findUsersFood(food.getFoodName(), food.getUserId());
-    // If food exists, remove desired amount from food quantity if possible
-    if (usersFood.isPresent()) {
-      Food foodItem = usersFood.get();
-      Long currentQuantity = foodItem.getCoreQuantity();
-      if (currentQuantity == null) {
-        System.out.println("Food item has no core quantity");
-        return false;
-      }
-      Long removedQuantity = food.getCoreQuantity();
-
-      // Update food quantity if possible
-      if (currentQuantity >= removedQuantity) {
-        currentQuantity = foodItem.getCoreQuantity() - removedQuantity;
-      } else {
-        System.out.println("Not enough of core amount to delete desired quantity");
-        return false;
-      }
-
-      // Save updated food quantity to database
-      fridgeRepository.setUsersCore(currentQuantity, foodItem.getRowId());
-      System.out.println(foodItem.toString());
-    } else {
-      System.out.println("Core item does not exist");
-      return false;
-    }
-    return true;
-  }
-
   public Boolean addUser(User user) {
     // checks if the user already exists
     List<User> users = userRepository
@@ -154,22 +84,47 @@ public class FridgeService {
       Food foodItem = usersFood.get();
 
       //update the quantity of the item
+      System.out.println(delta.getDeltaFoodQuantity());
+      System.out.println(longOrNullToLong(delta.getDeltaFoodQuantity()));
       fridgeRepository.updateUsersFood (
           longOrNullToLong(delta.getDeltaFoodQuantity()),
           delta.getNewCoreQuantity() == null ? foodItem.getCoreQuantity() : delta.getNewCoreQuantity(),
           foodItem.getRowId()
       );
-
+      Optional<Food> updatedFood = fridgeRepository
+        .findUsersFood(foodName, userId);
+      Food f = updatedFood.get();
+      //if its quantity is 0, delete from the fridge
+      if (f.getFoodQuantity() == 0 && f.getCoreQuantity() == 0){
+        deleteItem(f.getUserId(), f.getFoodName());
+      }
+      return f;
 
     } else {
-      Food newFood = new Food(userId, foodName, delta.getDeltaFoodQuantity(), delta.getNewCoreQuantity());
+      Long foodQuan = longOrNullToLong(delta.getDeltaFoodQuantity());
+      Long core = longOrNullToLong(delta.getNewCoreQuantity());
+      Food newFood = new Food(userId, foodName, foodQuan, core);
       fridgeRepository.save(newFood);
       System.out.println(hasCoreFood(newFood));
+      return newFood;
     }
 
-    Optional<Food> updatedFood = fridgeRepository
-        .findUsersFood(foodName, userId);
-    return updatedFood.get();
+  }
 
+  public Boolean deleteItem(Long userId, String foodName) {
+    // Check if the user has the item in their fridge
+    System.out.println(userId);
+    System.out.println(foodName);
+    Optional<Food> usersFood = fridgeRepository
+        .findUsersFood(foodName, userId);
+    // If food exists, delete item
+    if (usersFood.isPresent()) {
+      fridgeRepository.delete(usersFood.get());
+      return true;
+    }
+    else {
+      System.out.println("Item does not exist");
+      return false;
+    }
   }
 }
