@@ -21,14 +21,24 @@ public class FridgeController {
     return fridgeService.getFridge(userID);
   }
 
+  @GetMapping(path = "/get-all")
+  public List<Food> getFridgeAll() {
+    return fridgeService.getFridgeAll();
+  }
+
   @PostMapping(path = "/missing-core")
   public List<Food> missingCore(@RequestBody Long userID) {
     return fridgeService.missingCore(userID);
   }
 
+  @DeleteMapping(path = "user/{userId}/food/{foodName}/delete")
+  public Boolean deleteItem(@PathVariable Long userId, @PathVariable String foodName) {
+    return fridgeService.deleteItem(userId, foodName);
+  }
+
   @PostMapping(path = "add-user")
-  public void addUser(@RequestBody User user) {
-    fridgeService.addUser(user);
+  public Boolean addUser(@RequestBody User user) {
+    return fridgeService.addUser(user);
   }
 
   @DeleteMapping(path = "delete-user")
@@ -37,12 +47,7 @@ public class FridgeController {
   }
 
   @PostMapping(path = "user/{userId}/food/{foodName}/update")
-  public void updateFood(@RequestBody UpdateQuantity update, @PathVariable Long userId, @PathVariable String foodName) {
-    fridgeService.updateFood(update, userId, foodName);
-  }
-
-  @DeleteMapping(path = "user/{userId}/food/{foodName}")
-  public void deleteFoodItem(@PathVariable Long userId, @PathVariable String foodName) {
-    fridgeService.deleteFood(userId, foodName);
+  public Food updateFood(@RequestBody UpdateQuantity delta, @PathVariable Long userId, @PathVariable String foodName) {
+    return fridgeService.updateFood(delta, userId, foodName);
   }
 }
