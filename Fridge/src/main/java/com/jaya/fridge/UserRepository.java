@@ -12,11 +12,11 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
   @Query("SELECT f FROM User f WHERE f.userId = ?1")
-  List<User> findUser(Long userID);
+  List<User> findUser(Long userId);
 
   @Modifying
   @Transactional
   @Query("DELETE FROM User f WHERE f.userId = ?1")
-  void deleteUser(Long userID);
+  void deleteUser(Long userId);
 
 }

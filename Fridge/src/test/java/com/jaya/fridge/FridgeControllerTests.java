@@ -34,7 +34,7 @@ public class FridgeControllerTests {
   }
 
   @Test
-  void getFridgeTest(@Autowired MockMvc mvc) throws Exception{
+  void getFridgeAllTest(@Autowired MockMvc mvc) throws Exception{
     mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
             .content("{\"deltaFoodQuantity\": 42, \"newCoreQuantity\": 5}")
             .contentType("application/json"));
@@ -44,7 +44,7 @@ public class FridgeControllerTests {
     }
 
   @Test
-  void getFridgeAllTest(@Autowired MockMvc mvc) throws Exception{
+  void getFridgeTest(@Autowired MockMvc mvc) throws Exception{
     mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
             .content("{\"deltaFoodQuantity\": 42, \"newCoreQuantity\": 5}")
             .contentType("application/json"));
