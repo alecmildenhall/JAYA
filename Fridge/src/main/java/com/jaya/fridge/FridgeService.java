@@ -95,9 +95,10 @@ public class FridgeService {
         .findUsersFood(foodName, userId);
       Food f = updatedFood.get();
       //if its quantity is 0, delete from the fridge
-      if (f.getFoodQuantity() == 0 && f.getCoreQuantity() == 0){
+      if (f.getFoodQuantity() <= 0 && f.getCoreQuantity() <= 0){
         deleteItem(f.getUserId(), f.getFoodName());
       }
+      System.out.println(hasCoreFood(f));
       return f;
 
     } else {

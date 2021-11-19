@@ -42,8 +42,8 @@ public class FridgeController {
   }
 
   @DeleteMapping(path = "delete-user")
-  public void deleteUser(@RequestBody Long userId) {
-    fridgeService.deleteUser(userId);
+  public Boolean deleteUser(@RequestBody Long userId) {
+    return fridgeService.deleteUser(userId);
   }
 
   @PostMapping(path = "user/{userId}/food/{foodName}/update")

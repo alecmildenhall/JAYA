@@ -84,7 +84,8 @@ public class FridgeControllerTests {
         mvc.perform(delete("/api/v1/fridge/delete-user")
                 .content("10")
                 .contentType("application/json"))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andExpect(content().string("true"));
    }
 
   @Test
