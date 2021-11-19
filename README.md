@@ -16,6 +16,8 @@ git clone https://github.com/ambermildenhall/JAYA.git
 
 Build all files in the JAYA/Fridge. If you're are using IntelliJ, create a connection to a PostgreSQL data source.
 
+Download most recent version of PostgreSQL [here](https://www.postgresql.org/download/).
+
 ## Run
 
 Using your preferred IDE, run FridgeApplication.java. In your home terminal enter the following command:
