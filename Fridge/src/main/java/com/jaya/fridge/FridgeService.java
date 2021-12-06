@@ -19,11 +19,25 @@ public class FridgeService {
   }
 
   public List<Food> getFridge(Long userId) {
+    System.out.println(userId);
     return fridgeRepository.findUsersFridge(userId);
   }
 
   public List<Food> getFridgeAll() {
     return fridgeRepository.findAll();
+  }
+
+  public User getUser(String email){
+    System.out.println(email);
+    Optional<User> userByEmail = fridgeRepository.getUser(email);
+    if (userByEmail.isPresent()) {
+      User user =  userByEmail.get();
+      return user;
+    }
+    else{
+      System.out.println("Error. User does not exist");
+      return null;
+    }
   }
 
   //returns a list of foods that are below their core quantity amount

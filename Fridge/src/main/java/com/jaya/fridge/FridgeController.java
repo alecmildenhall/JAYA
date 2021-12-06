@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/v1/fridge")
 public class FridgeController {
@@ -16,14 +17,22 @@ public class FridgeController {
     this.fridgeService = fridgeService;
   }
 
-  @GetMapping(path = "/get-fridge")
-  public List<Food> getFridge(@RequestBody Long userId) {
+  @CrossOrigin
+  @GetMapping(path = "/get-fridge/{userId}")
+  public List<Food> getFridge(@PathVariable Long userId) {
     return fridgeService.getFridge(userId);
   }
 
+  @CrossOrigin
   @GetMapping(path = "/get-all")
   public List<Food> getFridgeAll() {
     return fridgeService.getFridgeAll();
+  }
+
+  @CrossOrigin
+  @GetMapping(path = "/get-user/{email}")
+  public User getUser(@PathVariable String email) {
+    return fridgeService.getUser(email);
   }
 
   @PostMapping(path = "/missing-core")

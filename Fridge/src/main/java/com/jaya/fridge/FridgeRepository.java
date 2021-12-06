@@ -16,6 +16,9 @@ public interface FridgeRepository extends JpaRepository<Food, Long> {
   @Query("SELECT f FROM Food f WHERE f.foodName = ?1 AND f.userId = ?2")
   Optional<Food> findUsersFood(String FoodName, Long userId);
 
+  @Query("SELECT u FROM User u WHERE u.email = ?1")
+  Optional<User> getUser(String email);
+
   @Modifying(flushAutomatically = true, clearAutomatically = true)
   @Transactional
   @Query("UPDATE Food f SET f.foodQuantity = f.foodQuantity + ?1, f.coreQuantity = ?2 WHERE f.rowId = ?3")
