@@ -68,13 +68,20 @@ public class FridgeService {
     // checks if the user already exists
     List<User> users = userRepository
         .findUser(user.getUserId());
-    // if they don't, add user
-    if (users.size() == 0) {
 
+    // check if email already exists
+    List<User> emails = userRepository
+            .findEmail(user.getEmail());
+
+    // if the email and user doesn't exist, add user
+    if (users.size() == 0 && emails.size() == 0) {
       // add user
       userRepository.save(user);
-    } else {
+    } else if (users.size() != 0) {
       System.out.println("user already exists");
+      return false;
+    } else {
+      System.out.println("email already exists");
       return false;
     }
     return true;
