@@ -14,6 +14,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT f FROM User f WHERE f.userId = ?1")
   List<User> findUser(Long userId);
 
+  @Query("SELECT f FROM User f WHERE f.email = ?1")
+  List<User> findEmail(String email);
+
   @Modifying
   @Transactional
   @Query("DELETE FROM User f WHERE f.userId = ?1")
