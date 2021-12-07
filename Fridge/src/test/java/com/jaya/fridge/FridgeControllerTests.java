@@ -59,12 +59,15 @@ public class FridgeControllerTests {
 
   @Test
   void missingCoreTest(@Autowired MockMvc mvc) throws Exception{
-    mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
+    mvc.perform(post("/api/v1/fridge/add-user")
+              .content("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
+              .contentType("application/json"));
+    mvc.perform(post("/api/v1/fridge/user/1/food/cherry/update")
             .content("{\"deltaFoodQuantity\": 3, \"newCoreQuantity\": 40}")
             .contentType("application/json"));
-    mvc.perform(get("/api/v1/fridge/missing-core/1234"))
+    mvc.perform(get("/api/v1/fridge/missing-core/1"))
         .andExpect(status().isOk())
-        .andExpect(content().json("[{\"userId\": 1234, \"foodQuantity\": 3, \"coreQuantity\": 40, \"foodName\": \"cherry\"}]"));
+        .andExpect(content().json("[{\"userId\": 1, \"foodQuantity\": 3, \"coreQuantity\": 40, \"foodName\": \"cherry\"}]"));
   }
 
   @Test
