@@ -25,16 +25,14 @@ var baseurl = "http://localhost:8080/api/v1/fridge"
                 xmlhttp.onreadystatechange = function() {
                     if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
                         var food = JSON.parse(xmlhttp.responseText);
-                        var tbltop = `<table>
-                                        <tr><th>Food Name</th><th>Food Quantity</th><th>Core Quantity</th></tr>`;
+                        var tbltop = "<tr><th>Food Name</th><th>Food Quantity</th><th>Core Quantity</th></tr>";
                         
                         var main = "";
                         for (i = 0; i < food.length; i++){
                             main += "<tr><td>" + food[i].foodName +"</td><td>" + food[i].foodQuantity +"</td><td>" + food[i].coreQuantity;
                         }
-                        var tblbottom = "</table>";
-                        var tbl = tbltop + main + tblbottom;
-                        document.getElementById("fridge").innerHTML = tbl;
+                        var tbl = tbltop + main;
+                        document.getElementById("fridgeTable").innerHTML = tbl;
                         var addFoodButton = "<button onclick = addFoodForm()>Add Food Item</button>";
                         document.getElementById("addFood").innerHTML = addFoodButton;
 
@@ -48,7 +46,7 @@ var baseurl = "http://localhost:8080/api/v1/fridge"
 
             function addFoodForm(){
                 var addFoodForm = 
-                `<form>
+                `<form onsubmit="return false;">
                     <label for=foodName>What food would you like to add?:</label>
                     <br><input type=text id=foodName><br>
                     <label for=foodQuantity>How many do you want to add to your fridge?:</label>
@@ -62,16 +60,19 @@ var baseurl = "http://localhost:8080/api/v1/fridge"
 
             function addFood(){
                 var foodName = document.getElementById("foodName").value;
-                alert(foodName);
-                var userId = document.getElementById("userEmail").value;
-                alert(userId);
+                var foodQuantity = document.getElementById("foodQuantity").value;
+                var coreQuantity = document.getElementById("coreQuantity").value;
+                var userId = document.getElementById("userId").innerHTML;
                 var xmlhttp = new XMLHttpRequest();
                 const json = {
-                    "deltaFoodQuantity": document.getElementById(foodQuantity).value,
-                    "newCoreQuantity": document.getElementById(coreQuantity).value
+                    "deltaFoodQuantity": foodQuantity,
+                    "newCoreQuantity": coreQuantity
                 };
                 xmlhttp.open("POST", baseurl + "/user/" + userId + "/food/" + foodName + "/update", true);
                 xmlhttp.setRequestHeader('Content-Type', 'application/json');
                 xmlhttp.send(JSON.stringify(json));
-                // getFridgeAll(userId);
+                var table = document.getElementById("fridgeTable");
+                table.refresh();
+                getFridgeAll(userId);
+
             }
