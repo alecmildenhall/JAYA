@@ -97,14 +97,26 @@ public class FridgeService {
     return x == null ? 0 : x;
   }
 
+  // TODO: Make sure user is in user table before being able to add their food
   public Food updateFood(UpdateQuantity update, Long userId, String foodName) {
+
+    // check user exists in user table before adding food
+    List<User> user = userRepository.
+            findUser(userId);
+
+    // if user does not exist in table, return
+    if (user.size() == 0) {
+      System.out.println("User does not exist in user table");
+      return null;
+    }
+
     Optional<Food> usersFood = fridgeRepository
         .findUsersFood(foodName, userId);
-    //if they do, update the quantity but don't add new item
+    // update the quantity but don't add new item is food is already present
     if (usersFood.isPresent()) {
       Food foodItem = usersFood.get();
 
-      //update the quantity of the item
+      // update the quantity of the item
       System.out.println(update.getDeltaFoodQuantity());
       System.out.println(longOrNullToLong(update.getDeltaFoodQuantity()));
       fridgeRepository.updateUsersFood (
