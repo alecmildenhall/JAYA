@@ -49,8 +49,7 @@ function getFridge(userId){
                 main += "<tr><td>" + food[i].foodName +"</td><td>" + food[i].foodQuantity 
                 +"</td><td>" + food[i].coreQuantity 
                 + `</td><td><button id = "deleteButton" onclick = deleteFood(this)>Delete</button>`
-                + `</td><td><button id = "editButton" onclick = editFoodForm(this)>Edit</button>`
-                + `</td><td><form id = "editFoodForm" onsubmit="return false;"</form>`;
+                + `</td><td><button id = "editButton" onclick = editFoodForm(this)>Edit</button>`;
             }
             var tbl = tbltop + main;
             document.getElementById("fridgeTable").innerHTML = tbl;
@@ -119,21 +118,22 @@ function deleteFood(button){
 }
 
 function editFoodForm(button){
-    var editFoodForm = 
-    `<form onsubmit="return false;">
-        <label for=foodQuan>How much would you like to +/-?</label>
-        <br><input type=number id=foodQuan><br>
-        <label for=coreQuan>How many would you like in your fridge at all times?</label>
-        <br><input type=number id=coreQuan><br>
-        <input type="submit" onclick="collapseEditFoodForm(this);" />
-    </form>`
-    button.parentNode.removeChild(button);
-    document.getElementById("editFoodForm").innerHTML = editFoodForm;
+    const edit = document.createElement("edit");
+    edit.id = "editFoodForm";
+    var editFoodForm = `<form onsubmit="return false;">
+    <label for=foodQuan>How much would you like to +/-?</label>
+    <br><input type=number id=foodQuan><br>
+    <label for=coreQuan>How many would you like in your fridge at all times?</label>
+    <br><input type=number id=coreQuan><br>
+    <input type="submit" onclick="collapseEditFoodForm(this);" />
+    </form>`;
+    edit.innerHTML = editFoodForm;
+    button.parentNode.replaceChild(edit, button);
     
 }
 
 function editFood(button){
-    var row = button.parentNode.parentNode.parentNode.rowIndex;
+    var row = button.parentNode.parentNode.parentNode.parentNode.rowIndex;
     var table = document.getElementById("fridgeTable");
     var foodName = table.rows[row].cells[0].innerHTML;
     var foodQuantity = document.getElementById("foodQuan").value;
