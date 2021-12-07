@@ -5,6 +5,11 @@ function collapseLoginForm(){
     login();
 }
 
+function collapseAddFoodForm(){
+    document.getElementById("addFoodForm").style.display = "none";
+    addFood();
+}
+
 function login(){
 var email = document.getElementById("email").value;
 var xmlhttp = new XMLHttpRequest();
@@ -17,7 +22,7 @@ var xmlhttp = new XMLHttpRequest();
             document.getElementById("userId").style.display = "none";
             document.getElementById("userEmail").innerHTML = user.email;
             document.getElementById("userEmail").style.display = "none";
-            getFridgeAll(user.userId);
+            getFridge(user.userId);
         }
         else{
             System.out.println("Error")
@@ -26,7 +31,7 @@ var xmlhttp = new XMLHttpRequest();
     xmlhttp.send();
 }
 
-function getFridgeAll(userId){
+function getFridge(userId){
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", baseurl + "/get-fridge/" + userId, true);
     xmlhttp.onreadystatechange = function() {
@@ -44,7 +49,8 @@ function getFridgeAll(userId){
             document.getElementById("fridgeTable").innerHTML = tbl;
             var addFoodButton = "<button onclick = addFoodForm()>Add Food Item</button>";
             document.getElementById("addFood").innerHTML = addFoodButton;
-
+            var missingCoreButton = "<button onclick = missingCore()>What am I missing?</button>";
+            document.getElementById("missingCore").innerHTML = missingCoreButton;
         }
         else{
             System.out.println("Error")
@@ -62,9 +68,10 @@ function addFoodForm(){
         <br><input type=number id=foodQuantity><br>
         <label for=coreQuantity>How many would you like in your fridge at all times?:</label>
         <br><input type=number id=coreQuantity><br>
-        <input type="submit" onclick="addFood();" />
+        <input type="submit" onclick="collapseAddFoodForm();" />
     </form>`
     document.getElementById("addFoodForm").innerHTML = addFoodForm;
+    document.getElementById("addFoodForm").style.display = 'block';
 }
 
 function addFood(){
@@ -81,7 +88,14 @@ function addFood(){
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
     xmlhttp.send(JSON.stringify(json));
     alert("Food item added!");
-    getFridgeAll(userId);
+    getFridge(userId);
+    const food = {
+        "foodName": foodName,
+        "foodQuantity": foodQuantity,
+        "coreQuantity": coreQuantity
+    };
+    coreAlert(food);
+    document.getElementById("missingList").style.display = "none";
 }
 
 function deleteFood(button){
@@ -94,5 +108,46 @@ function deleteFood(button){
     xmlhttp.send();
     alert("Food item deleted!");
     alert("Food item deleted!");
-    getFridgeAll(userId);
+    getFridge(userId);
+}
+
+function coreAlert(food){
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", baseurl + "/has-core", true);
+    xmlhttp.setRequestHeader('Content-Type', 'application/json');
+    xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+            var bool = JSON.parse(xmlhttp.responseText);
+            if(bool == false){
+                alert("You are under your core value!")
+            }
+        }
+        else{
+            System.out.println("Error")
+        }
+    };
+    xmlhttp.send(JSON.stringify(food));
+
+}
+
+function missingCore(){
+    document.getElementById("missingList").style.display = 'block';
+    var xmlhttp = new XMLHttpRequest();
+    var userId = document.getElementById("userId").innerHTML;
+    xmlhttp.open("GET", baseurl + "/missing-core/" + userId, true);
+    xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+            var food = JSON.parse(xmlhttp.responseText);
+
+            var list = ""
+            for (i = 0; i < food.length; i++){
+                list += "<p>" + food[i].foodName + "</p>";
+            }
+            document.getElementById("missingList").innerHTML = list;
+        }
+        else{
+            System.out.println("Error")
+        }
+    };
+    xmlhttp.send();
 }

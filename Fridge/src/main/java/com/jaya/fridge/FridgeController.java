@@ -23,21 +23,24 @@ public class FridgeController {
     return fridgeService.getFridge(userId);
   }
 
-  @CrossOrigin
   @GetMapping(path = "/get-all")
   public List<Food> getFridgeAll() {
     return fridgeService.getFridgeAll();
   }
 
-  @CrossOrigin
   @GetMapping(path = "/get-user/{email}")
   public User getUser(@PathVariable String email) {
     return fridgeService.getUser(email);
   }
 
-  @PostMapping(path = "/missing-core")
-  public List<Food> missingCore(@RequestBody Long userId) {
+  @GetMapping(path = "/missing-core/{userId}")
+  public List<Food> missingCore(@PathVariable Long userId) {
     return fridgeService.missingCore(userId);
+  }
+
+  @PostMapping(path = "/has-core")
+  public Boolean hasCoreFood(@RequestBody Food f) {
+    return fridgeService.hasCoreFood(f);
   }
 
   @DeleteMapping(path = "user/{userId}/food/{foodName}/delete")
