@@ -97,10 +97,10 @@ public class FridgeControllerTests {
   @Test
   void addUserTest(@Autowired MockMvc mvc) throws Exception{
         mvc.perform(post("/api/v1/fridge/add-user")
-                .content("{\"userId\": 10, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
+                .content("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
                 .contentType("application/json"))
         .andExpect(status().isOk())
-        .andExpect(content().string("true"));
+        .andExpect(content().json("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}"));
  }
 
   @Test

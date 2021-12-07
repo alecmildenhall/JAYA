@@ -64,7 +64,7 @@ public class FridgeService {
     return true;
   }
 
-  public Boolean addUser(User user) {
+  public User addUser(User user) {
     // checks if the user already exists
     List<User> users = userRepository
         .findUser(user.getUserId());
@@ -79,12 +79,12 @@ public class FridgeService {
       userRepository.save(user);
     } else if (users.size() != 0) {
       System.out.println("user already exists");
-      return false;
+      return null;
     } else {
       System.out.println("email already exists");
-      return false;
+      return null;
     }
-    return true;
+    return user;
   }
 
   public Boolean deleteUser(Long userId) {
