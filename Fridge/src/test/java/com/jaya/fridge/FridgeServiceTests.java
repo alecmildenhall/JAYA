@@ -130,8 +130,11 @@ public class FridgeServiceTests {
   void testHasCore() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1234L);
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
+
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1L);
     Food returnedFood = food.get();
 
     assertEquals(false, fridge.hasCoreFood(returnedFood));
