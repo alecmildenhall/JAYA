@@ -5,6 +5,10 @@ function collapseLoginForm(){
     login();
 }
 
+function showLoginForm(){
+    document.getElementById("emailForm").style.display = "block";
+}
+
 function collapseAddFoodForm(){
     document.getElementById("addFoodForm").style.display = "none";
     addFood();
@@ -22,12 +26,18 @@ var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
             var user = JSON.parse(xmlhttp.responseText);
-            document.getElementById("userName").innerHTML = "Logged in as: " + user.name;
-            document.getElementById("userId").innerHTML = user.userId;
-            document.getElementById("userId").style.display = "none";
-            document.getElementById("userEmail").innerHTML = user.email;
-            document.getElementById("userEmail").style.display = "none";
-            getFridge(user.userId);
+            if (user.userId === -1){
+                showLoginForm();
+                alert("User does not exist. Try a different email.")
+            }
+            else{
+                document.getElementById("userName").innerHTML = "Logged in as: " + user.name;
+                document.getElementById("userId").innerHTML = user.userId;
+                document.getElementById("userId").style.display = "none";
+                document.getElementById("userEmail").innerHTML = user.email;
+                document.getElementById("userEmail").style.display = "none";
+                getFridge(user.userId);
+            }
         }
         else{
             System.out.println("Error")

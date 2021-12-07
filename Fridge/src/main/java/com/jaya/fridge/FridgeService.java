@@ -42,7 +42,7 @@ public class FridgeService {
     }
     else{
       System.out.println("Error. User does not exist");
-      return null;
+      return new User(-1L);
     }
   }
 
