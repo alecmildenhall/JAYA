@@ -144,9 +144,9 @@ public class FridgeServiceTests {
   @Test
   void testAddUser() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
-    User user = new User(1234L);
+    User user = new User(1L);
 
-    assertEquals(true, fridge.addUser(user));
+    assertEquals(user, fridge.addUser(user));
   }
 
   @Test

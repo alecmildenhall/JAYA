@@ -52,7 +52,7 @@ public class FridgeController {
   }
 
   @PostMapping(path = "add-user")
-  public Boolean addUser(@RequestBody User user) {
+  public User addUser(@RequestBody User user) {
     return fridgeService.addUser(user);
   }
 
