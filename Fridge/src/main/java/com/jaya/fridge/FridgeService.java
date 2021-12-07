@@ -97,7 +97,6 @@ public class FridgeService {
     return x == null ? 0 : x;
   }
 
-  // TODO: Make sure user is in user table before being able to add their food
   public Food updateFood(UpdateQuantity update, Long userId, String foodName) {
 
     // check user exists in user table before adding food
