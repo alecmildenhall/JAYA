@@ -23,22 +23,28 @@ public class FridgeControllerTests {
 
   @Test
   void getFridgeAllTest(@Autowired MockMvc mvc) throws Exception{
-    mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
+    mvc.perform(post("/api/v1/fridge/add-user")
+              .content("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
+              .contentType("application/json"));
+    mvc.perform(post("/api/v1/fridge/user/1/food/cherry/update")
             .content("{\"deltaFoodQuantity\": 42, \"newCoreQuantity\": 5}")
             .contentType("application/json"));
     mvc.perform(get("/api/v1/fridge/get-all"))
        .andExpect(status().isOk())
-       .andExpect(content().json("[{\"userId\": 1234, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}]"));
+       .andExpect(content().json("[{\"userId\": 1, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}]"));
     }
 
   @Test
   void getFridgeTest(@Autowired MockMvc mvc) throws Exception{
-    mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
+    mvc.perform(post("/api/v1/fridge/add-user")
+              .content("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
+              .contentType("application/json"));
+    mvc.perform(post("/api/v1/fridge/user/1/food/cherry/update")
             .content("{\"deltaFoodQuantity\": 42, \"newCoreQuantity\": 5}")
             .contentType("application/json"));
-    mvc.perform(get("/api/v1/fridge/get-fridge/1234"))
+    mvc.perform(get("/api/v1/fridge/get-fridge/1"))
        .andExpect(status().isOk())
-       .andExpect(content().json("[{\"userId\": 1234, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}]"));
+       .andExpect(content().json("[{\"userId\": 1, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}]"));
     }
 
     @Test
@@ -53,12 +59,15 @@ public class FridgeControllerTests {
 
   @Test
   void missingCoreTest(@Autowired MockMvc mvc) throws Exception{
-    mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
+    mvc.perform(post("/api/v1/fridge/add-user")
+              .content("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
+              .contentType("application/json"));
+    mvc.perform(post("/api/v1/fridge/user/1/food/cherry/update")
             .content("{\"deltaFoodQuantity\": 3, \"newCoreQuantity\": 40}")
             .contentType("application/json"));
-    mvc.perform(get("/api/v1/fridge/missing-core/1234"))
+    mvc.perform(get("/api/v1/fridge/missing-core/1"))
         .andExpect(status().isOk())
-        .andExpect(content().json("[{\"userId\": 1234, \"foodQuantity\": 3, \"coreQuantity\": 40, \"foodName\": \"cherry\"}]"));
+        .andExpect(content().json("[{\"userId\": 1, \"foodQuantity\": 3, \"coreQuantity\": 40, \"foodName\": \"cherry\"}]"));
   }
 
   @Test
@@ -72,10 +81,13 @@ public class FridgeControllerTests {
 
   @Test
   void deleteItemTest(@Autowired MockMvc mvc) throws Exception{
-    mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
+    mvc.perform(post("/api/v1/fridge/add-user")
+              .content("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
+              .contentType("application/json"));
+    mvc.perform(post("/api/v1/fridge/user/1/food/cherry/update")
             .content("{\"deltaFoodQuantity\": 3, \"newCoreQuantity\": 40}")
             .contentType("application/json"));
-    mvc.perform(delete("/api/v1/fridge/user/1234/food/cherry/delete")
+    mvc.perform(delete("/api/v1/fridge/user/1/food/cherry/delete")
             .content("")
             .contentType("application/json"))
         .andExpect(status().isOk())
@@ -105,11 +117,14 @@ public class FridgeControllerTests {
 
   @Test
    void updateFoodTest(@Autowired MockMvc mvc) throws Exception {
-        mvc.perform(post("/api/v1/fridge/user/1234/food/cherry/update")
+        mvc.perform(post("/api/v1/fridge/add-user")
+              .content("{\"userId\": 1, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
+              .contentType("application/json"));
+        mvc.perform(post("/api/v1/fridge/user/1/food/cherry/update")
                 .content("{\"deltaFoodQuantity\": 42, \"newCoreQuantity\": 5}")
                 .contentType("application/json"))
         .andExpect(status().isOk())
-        .andExpect(content().json("{\"userId\": 1234, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}"));
+        .andExpect(content().json("{\"userId\": 1, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}"));
    }
 
 }

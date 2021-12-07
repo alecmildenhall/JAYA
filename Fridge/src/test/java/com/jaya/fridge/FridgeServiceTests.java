@@ -24,10 +24,13 @@ public class FridgeServiceTests {
   void testUpdateFoodNewFood() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1234L);
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
+
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1L);
     Food returnedFood = food.get();
-    Food checkFood = new Food(1234L, "chocolate", 5L, 7L);
+    Food checkFood = new Food(1L, "chocolate", 5L, 7L);
 
     assertEquals(checkFood.toString(), returnedFood.toString());
   }
@@ -36,13 +39,16 @@ public class FridgeServiceTests {
   void testUpdateFoodUpdateFoodQuantity() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    fridge.updateFood(new UpdateQuantity(12L, 8L), 1234L, "chocolate");
-    fridge.updateFood(new UpdateQuantity(13L, 9L), 1234L, "chocolate");
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
 
-    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1234L);
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    fridge.updateFood(new UpdateQuantity(12L, 8L), 1L, "chocolate");
+    fridge.updateFood(new UpdateQuantity(13L, 9L), 1L, "chocolate");
+
+    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1L);
     Food returnedFood = food.get();
-    Food checkFood = new Food(1234L, "chocolate", 30L, 9L);
+    Food checkFood = new Food(1L, "chocolate", 30L, 9L);
 
     assertEquals(checkFood.toString(), returnedFood.toString());
   }
@@ -51,33 +57,45 @@ public class FridgeServiceTests {
   void testGetFridge() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    fridge.updateFood(new UpdateQuantity(10L, 9L), 1234L, "cherry");
-    fridge.updateFood(new UpdateQuantity(15L, 8L), 1234L, "apple");
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
 
-    Food food1 = new Food(1234L, "chocolate", 5L, 7L);
-    Food food2 = new Food(1234L, "cherry", 10L, 9L);
-    Food food3 = new Food(1234L, "apple", 15L, 8L);
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    fridge.updateFood(new UpdateQuantity(10L, 9L), 1L, "cherry");
+    fridge.updateFood(new UpdateQuantity(15L, 8L), 1L, "apple");
+
+    Food food1 = new Food(1L, "chocolate", 5L, 7L);
+    Food food2 = new Food(1L, "cherry", 10L, 9L);
+    Food food3 = new Food(1L, "apple", 15L, 8L);
 
     ArrayList<Food> list = new ArrayList<>();
     list.add(food1);
     list.add(food2);
     list.add(food3);
 
-    assertEquals(list.toString(), fridge.getFridge(1234L).toString());
+    assertEquals(list.toString(), fridge.getFridge(1L).toString());
   }
 
   @Test
   void testGetFridgeAll() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 781L, "chocolate");
-    fridge.updateFood(new UpdateQuantity(10L, 9L), 2211L, "cherry");
-    fridge.updateFood(new UpdateQuantity(15L, 8L), 4L, "apple");
+    User user1 = new User(1L, "test1@gmail.com", "test1");
+    fridge.addUser(user1);
 
-    Food food1 = new Food(781L, "chocolate", 5L, 7L);
-    Food food2 = new Food(2211L, "cherry", 10L, 9L);
-    Food food3 = new Food(4L, "apple", 15L, 8L);
+    User user2 = new User(2L, "test2@gmail.com", "test2");
+    fridge.addUser(user2);
+
+    User user3 = new User(3L, "test3@gmail.com", "test3");
+    fridge.addUser(user3);
+
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    fridge.updateFood(new UpdateQuantity(10L, 9L), 2L, "cherry");
+    fridge.updateFood(new UpdateQuantity(15L, 8L), 3L, "apple");
+
+    Food food1 = new Food(1L, "chocolate", 5L, 7L);
+    Food food2 = new Food(2L, "cherry", 10L, 9L);
+    Food food3 = new Food(3L, "apple", 15L, 8L);
 
     ArrayList<Food> list = new ArrayList<>();
     list.add(food1);
@@ -91,26 +109,32 @@ public class FridgeServiceTests {
   void testMissingCore() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    fridge.updateFood(new UpdateQuantity(10L, 30L), 1234L, "cherry");
-    fridge.updateFood(new UpdateQuantity(15L, 8L), 1234L, "apple");
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
 
-    Food food1 = new Food(1234L, "chocolate", 5L, 7L);
-    Food food2 = new Food(1234L, "cherry", 10L, 30L);
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    fridge.updateFood(new UpdateQuantity(10L, 30L), 1L, "cherry");
+    fridge.updateFood(new UpdateQuantity(15L, 8L), 1L, "apple");
+
+    Food food1 = new Food(1L, "chocolate", 5L, 7L);
+    Food food2 = new Food(1L, "cherry", 10L, 30L);
 
     ArrayList<Food> list = new ArrayList<>();
     list.add(food1);
     list.add(food2);
 
-    assertEquals(list.toString(), fridge.missingCore(1234L).toString());
+    assertEquals(list.toString(), fridge.missingCore(1L).toString());
   }
 
   @Test
   void testHasCore() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1234L);
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
+
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    Optional<Food> food = this.fridgeRepository.findUsersFood("chocolate", 1L);
     Food returnedFood = food.get();
 
     assertEquals(false, fridge.hasCoreFood(returnedFood));
@@ -140,20 +164,23 @@ public class FridgeServiceTests {
   void testDeleteItem() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    fridge.updateFood(new UpdateQuantity(10L, 9L), 1234L, "cherry");
-    fridge.updateFood(new UpdateQuantity(15L, 8L), 1234L, "apple");
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
 
-    fridge.deleteItem(1234L, "apple");
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    fridge.updateFood(new UpdateQuantity(10L, 9L), 1L, "cherry");
+    fridge.updateFood(new UpdateQuantity(15L, 8L), 1L, "apple");
 
-    Food food1 = new Food(1234L, "chocolate", 5L, 7L);
-    Food food2 = new Food(1234L, "cherry", 10L, 9L);
+    fridge.deleteItem(1L, "apple");
+
+    Food food1 = new Food(1L, "chocolate", 5L, 7L);
+    Food food2 = new Food(1L, "cherry", 10L, 9L);
 
     ArrayList<Food> list = new ArrayList<>();
     list.add(food1);
     list.add(food2);
 
-    assertEquals(list.toString(), fridge.getFridge(1234L).toString());
+    assertEquals(list.toString(), fridge.getFridge(1L).toString());
   }
 
 }
