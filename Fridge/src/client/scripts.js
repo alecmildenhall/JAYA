@@ -10,6 +10,11 @@ function collapseAddFoodForm(){
     addFood();
 }
 
+function collapseEditFoodForm(button){
+    document.getElementById("editFoodForm").style.display = "none";
+    editFood(button);
+}
+
 function login(){
 var email = document.getElementById("email").value;
 var xmlhttp = new XMLHttpRequest();
@@ -43,7 +48,9 @@ function getFridge(userId){
             for (i = 0; i < food.length; i++){
                 main += "<tr><td>" + food[i].foodName +"</td><td>" + food[i].foodQuantity 
                 +"</td><td>" + food[i].coreQuantity 
-                + `</td><td><button id = "buttonId" onclick = deleteFood(this)>Delete</button>`;
+                + `</td><td><button id = "deleteButton" onclick = deleteFood(this)>Delete</button>`
+                + `</td><td><button id = "editButton" onclick = editFoodForm(this)>Edit</button>`
+                + `</td><td><form id = "editFoodForm" onsubmit="return false;"</form>`;
             }
             var tbl = tbltop + main;
             document.getElementById("fridgeTable").innerHTML = tbl;
@@ -110,6 +117,48 @@ function deleteFood(button){
     alert("Food item deleted!");
     getFridge(userId);
 }
+
+function editFoodForm(button){
+    var editFoodForm = 
+    `<form onsubmit="return false;">
+        <label for=foodQuan>How much would you like to +/-?</label>
+        <br><input type=number id=foodQuan><br>
+        <label for=coreQuan>How many would you like in your fridge at all times?</label>
+        <br><input type=number id=coreQuan><br>
+        <input type="submit" onclick="collapseEditFoodForm(this);" />
+    </form>`
+    button.parentNode.removeChild(button);
+    document.getElementById("editFoodForm").innerHTML = editFoodForm;
+    
+}
+
+function editFood(button){
+    var row = button.parentNode.parentNode.parentNode.rowIndex;
+    var table = document.getElementById("fridgeTable");
+    var foodName = table.rows[row].cells[0].innerHTML;
+    var foodQuantity = document.getElementById("foodQuan").value;
+    var coreQuantity = document.getElementById("coreQuan").value;
+    var userId = document.getElementById("userId").innerHTML;
+    var xmlhttp = new XMLHttpRequest();
+    const json = {
+        "deltaFoodQuantity": foodQuantity,
+        "newCoreQuantity": coreQuantity
+    };
+    xmlhttp.open("POST", baseurl + "/user/" + userId + "/food/" + foodName + "/update", true);
+    xmlhttp.setRequestHeader('Content-Type', 'application/json');
+    xmlhttp.send(JSON.stringify(json));
+    alert("Food item updated!");
+    getFridge(userId);
+    const food = {
+        "foodName": foodName,
+        "foodQuantity": foodQuantity,
+        "coreQuantity": coreQuantity
+    };
+    coreAlert(food);
+    document.getElementById("missingList").style.display = "none";
+}
+
+
 
 function coreAlert(food){
     var xmlhttp = new XMLHttpRequest();
