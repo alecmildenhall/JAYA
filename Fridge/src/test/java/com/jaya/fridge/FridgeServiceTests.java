@@ -164,20 +164,23 @@ public class FridgeServiceTests {
   void testDeleteItem() throws Exception {
     FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
 
-    fridge.updateFood(new UpdateQuantity(5L, 7L), 1234L, "chocolate");
-    fridge.updateFood(new UpdateQuantity(10L, 9L), 1234L, "cherry");
-    fridge.updateFood(new UpdateQuantity(15L, 8L), 1234L, "apple");
+    User user = new User(1L, "test@gmail.com", "test");
+    fridge.addUser(user);
 
-    fridge.deleteItem(1234L, "apple");
+    fridge.updateFood(new UpdateQuantity(5L, 7L), 1L, "chocolate");
+    fridge.updateFood(new UpdateQuantity(10L, 9L), 1L, "cherry");
+    fridge.updateFood(new UpdateQuantity(15L, 8L), 1L, "apple");
 
-    Food food1 = new Food(1234L, "chocolate", 5L, 7L);
-    Food food2 = new Food(1234L, "cherry", 10L, 9L);
+    fridge.deleteItem(1L, "apple");
+
+    Food food1 = new Food(1L, "chocolate", 5L, 7L);
+    Food food2 = new Food(1L, "cherry", 10L, 9L);
 
     ArrayList<Food> list = new ArrayList<>();
     list.add(food1);
     list.add(food2);
 
-    assertEquals(list.toString(), fridge.getFridge(1234L).toString());
+    assertEquals(list.toString(), fridge.getFridge(1L).toString());
   }
 
 }
