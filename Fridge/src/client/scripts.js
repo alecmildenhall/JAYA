@@ -72,7 +72,7 @@ var baseurl = "http://localhost:8080/api/v1/fridge"
                 xmlhttp.setRequestHeader('Content-Type', 'application/json');
                 xmlhttp.send(JSON.stringify(json));
                 var table = document.getElementById("fridgeTable");
-                table.refresh();
+                //table.ajax.reload(null, false)
+                alert("Food item added!");
                 getFridgeAll(userId);
-
             }
