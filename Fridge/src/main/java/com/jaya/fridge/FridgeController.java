@@ -3,7 +3,10 @@ package com.jaya.fridge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.*;
+
+import com.squareup.okhttp.Response;
 
 @CrossOrigin
 @RestController
@@ -62,4 +65,10 @@ public class FridgeController {
   public Food updateFood(@RequestBody UpdateQuantity delta, @PathVariable Long userId, @PathVariable String foodName) {
     return fridgeService.updateFood(delta, userId, foodName);
   }
+
+  @GetMapping(path = "get-recipe/ingredients/{ingredients}")
+  public Response getRecipe(@PathVariable String ingredients ) throws IOException {
+    return fridgeService.getRecipe(ingredients);
+  }
+
 }

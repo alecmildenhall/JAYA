@@ -3,7 +3,12 @@ package com.jaya.fridge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 
 @Service
@@ -11,6 +16,7 @@ public class FridgeService {
 
   private final FridgeRepository fridgeRepository;
   private final UserRepository userRepository;
+  public Response response;
 
   @Autowired
   public FridgeService(FridgeRepository fridgeRepository, UserRepository userRepository) {
@@ -148,4 +154,21 @@ public class FridgeService {
       return false;
     }
   }
+
+public Response getRecipe(String ingredients) throws IOException{
+  OkHttpClient client = new OkHttpClient();
+   String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=";
+   url += ingredients.replace(",", "%2C");
+   url += "&number=5&ignorePantry=true&ranking=1";
+
+  Request request = new Request.Builder()
+    .url(url)
+    .get()
+    .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+    .addHeader("x-rapidapi-key", "baff636bb0msh6c837292fc1a057p1d43bejsn20d37ef436f6")
+    .build();
+
+  response = client.newCall(request).execute();
+  return response;
+}
 }
