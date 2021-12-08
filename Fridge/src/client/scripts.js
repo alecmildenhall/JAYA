@@ -33,7 +33,7 @@ var xmlhttp = new XMLHttpRequest();
             var user = JSON.parse(xmlhttp.responseText);
             if (user.userId === -1){
                 showLoginForm();
-                alert("User does not exist. Try a different email.")
+                alert("User does not exist. Try a different email or Create new user.")
             }
             else{
                 document.getElementById("userName").innerHTML = "Logged in as: " + user.name;
@@ -42,6 +42,8 @@ var xmlhttp = new XMLHttpRequest();
                 document.getElementById("userEmail").innerHTML = user.email;
                 document.getElementById("userEmail").style.display = "none";
                 getFridge(user.userId);
+                document.getElementById("newUser").style.display = "none";
+                document.getElementById("deleteAccount").innerHTML = `<button id = "deleteAccount" onclick="deleteUser();">Delete Account</button>`;
             }
         }
         else{
@@ -76,8 +78,26 @@ function newUser(){
     };
     xmlhttp.open("POST", baseurl + "/add-user", true);
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
+    xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+            var user = JSON.parse(xmlhttp.responseText);
+            if (user.userId === -1){
+                alert("Account already exists with that email. Login.");
+                const button = document.createElement("newUserButton");
+                var newUserButton = `<button id = "newUser" onclick="newUserForm();">Create New User</button>`;
+                button.innerHTML = newUserButton;
+                var userForm = document.getElementById("newUserForm");
+                userForm.parentNode.replaceChild(button, userForm);
+            }
+            else{
+                alert("New user created! Login with email.");
+            }
+        }
+        else{
+            System.out.println("Error")
+        }
+    };
     xmlhttp.send(JSON.stringify(json));
-    alert("New user created! Login with your email.");
 }
 
 function getFridge(userId){
@@ -188,6 +208,17 @@ function deleteFood(button){
     alert("Food item deleted!");
     getFridge(userId);
 }
+
+function deleteUser(){
+    var userId = document.getElementById("userId").innerHTML;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("DELETE", baseurl + "/delete-user/" + userId, true);
+    xmlhttp.send();
+    alert("Account deleted.");
+    window.location.reload();
+}
+
+
 
 function editFoodForm(button){
     const edit = document.createElement("edit");

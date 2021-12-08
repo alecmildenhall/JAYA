@@ -84,11 +84,11 @@ public class FridgeService {
       // add user
       userRepository.save(user);
     } else if (users.size() != 0) {
-      System.out.println("user already exists");
-      return null;
+        System.out.println("user already exists");
+        return new User(-1L);
     } else {
-      System.out.println("email already exists");
-      return null;
+        System.out.println("email already exists");
+        return new User(-1L);
     }
     return user;
   }

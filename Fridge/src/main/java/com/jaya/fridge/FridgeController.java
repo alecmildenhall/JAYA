@@ -56,8 +56,8 @@ public class FridgeController {
     return fridgeService.addUser(user);
   }
 
-  @DeleteMapping(path = "delete-user")
-  public Boolean deleteUser(@RequestBody Long userId) {
+  @DeleteMapping(path = "delete-user/{userId}")
+  public Boolean deleteUser(@PathVariable Long userId) {
     return fridgeService.deleteUser(userId);
   }
 
