@@ -21,7 +21,11 @@ function collapseEditFoodForm(button){
 
 function collapseNewUserForm(){
     document.getElementById("newUserForm").style.display = "none";
-    newUser();
+    var name = document.getElementById("newUserName").value;
+    var email = document.getElementById("newUserEmail").value;
+    if(name != "" && email != ""){
+        newUser();
+    }
 }
 
 function login(){
@@ -42,7 +46,10 @@ var xmlhttp = new XMLHttpRequest();
                 document.getElementById("userEmail").innerHTML = user.email;
                 document.getElementById("userEmail").style.display = "none";
                 getFridge(user.userId);
-                document.getElementById("newUser").style.display = "none";
+                if(document.getElementById("newUser") !== null){
+                    document.getElementById("newUser").style.display = "none";
+                }
+                collapseNewUserForm();
                 document.getElementById("deleteAccount").innerHTML = `<button id = "deleteAccount" onclick="deleteUser();">Delete Account</button>`;
             }
         }
@@ -212,10 +219,12 @@ function deleteFood(button){
 function deleteUser(){
     var userId = document.getElementById("userId").innerHTML;
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("DELETE", baseurl + "/delete-user/" + userId, true);
-    xmlhttp.send();
-    alert("Account deleted.");
-    window.location.reload();
+    if (confirm('Are you sure you want to delete your account?')) {
+        xmlhttp.open("DELETE", baseurl + "/delete-user/" + userId, true);
+        xmlhttp.send();
+        alert('Account deleted.');
+        window.location.reload();
+    }
 }
 
 
