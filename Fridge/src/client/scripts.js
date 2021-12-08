@@ -19,6 +19,11 @@ function collapseEditFoodForm(button){
     editFood(button);
 }
 
+function collapseNewUserForm(){
+    document.getElementById("newUserForm").style.display = "none";
+    newUser();
+}
+
 function login(){
 var email = document.getElementById("email").value;
 var xmlhttp = new XMLHttpRequest();
@@ -44,6 +49,35 @@ var xmlhttp = new XMLHttpRequest();
         }
     };
     xmlhttp.send();
+}
+
+function newUserForm(){
+    const user = document.createElement("edit");
+    user.id = "newUserForm";
+    var newUserForm = `<form onsubmit="return false;">
+    <label for=newUserName>Name</label>
+    <br><input type=text id=newUserName><br>
+    <label for=newUserEmail>Email</label>
+    <br><input type=text id=newUserEmail><br>
+    <input type="submit" onclick="collapseNewUserForm(this);" />
+    </form>`;
+    user.innerHTML = newUserForm;
+    var button = document.getElementById("newUser");
+    button.parentNode.replaceChild(user, button);
+}
+
+function newUser(){
+    var name = document.getElementById("newUserName").value;
+    var email = document.getElementById("newUserEmail").value;
+    var xmlhttp = new XMLHttpRequest();
+    const json = {
+        "name": name,
+        "email": email
+    };
+    xmlhttp.open("POST", baseurl + "/add-user", true);
+    xmlhttp.setRequestHeader('Content-Type', 'application/json');
+    xmlhttp.send(JSON.stringify(json));
+    alert("New user created! Login with your email.");
 }
 
 function getFridge(userId){
