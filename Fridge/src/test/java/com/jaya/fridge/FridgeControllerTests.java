@@ -108,9 +108,7 @@ public class FridgeControllerTests {
         mvc.perform(post("/api/v1/fridge/user/add-user")
                 .content("{\"userId\": 10, \"email\": \"test@gmail.com\", \"name\": \"Alex\"}")
                 .contentType("application/json"));
-        mvc.perform(delete("/api/v1/fridge/delete-user")
-                .content("10")
-                .contentType("application/json"))
+        mvc.perform(delete("/api/v1/fridge/delete-user/10"))
         .andExpect(status().isOk())
         .andExpect(content().string("true"));
    }
