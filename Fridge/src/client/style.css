@@ -1,0 +1,130 @@
+body{
+    background-color: #a7d3ff;
+}
+
+.b{
+    color: #0b3552;
+}
+
+/*adds shadow around the table*/
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+/*adds color to top of table*/
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+/*spaces out the table*/
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+/*small line of color between each row*/
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+/*alternates row color*/
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #b5dcff;
+}
+/*bottom of table a different color*/
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+/*Add Food Button and Missing Core Button*/
+#addFood{
+    margin-top:20px;
+}
+#missingCore{
+  margin-top:10px;
+}
+.button-37 {
+  background-color: #009879;
+  border: 1px solid #009879;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  outline: none;
+  outline: 0;
+  padding: 5px 15px;
+  text-align: center;
+  transform: translateY(0);
+  transition: transform 150ms, box-shadow 150ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.button-37:hover {
+  box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+  transform: translateY(-2px);
+}
+@media (min-width: 768px) {
+  .button-37 {
+    padding: 10px 30px;
+  }
+}
+
+/* Buttons inside of the table */
+.tableButton {
+  appearance: none;
+  background-color: #FAFBFC;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+  box-sizing: border-box;
+  color: #24292E;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  padding: 5px 12px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+.tableButton:hover {
+  background-color: #e9eaec;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+.tableButton:disabled {
+  background-color: #FAFBFC;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #959DA5;
+  cursor: default;
+}
+.tableButton:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+.tableButton:focus {
+  outline: 1px transparent;
+}
+.tableButton:before {
+  display: none;
+}
+.tableButton:-webkit-details-marker {
+  display: none;
+}

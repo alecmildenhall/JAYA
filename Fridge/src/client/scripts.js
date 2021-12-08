@@ -52,20 +52,22 @@ function getFridge(userId){
     xmlhttp.onreadystatechange = function() {
         if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
             var food = JSON.parse(xmlhttp.responseText);
-            var tbltop = "<tr><th>Food Name</th><th>Food Quantity</th><th>Core Quantity</th></tr>";
+            var tbltop = "<thead><tr><th>Food Name</th><th>Food Quantity</th><th>Core Quantity</th><th>Edit</th><th>Delete</th></tr><thead/>";
             
-            var main = "";
+            var main = "<tbody>";
             for (i = 0; i < food.length; i++){
                 main += "<tr><td>" + food[i].foodName +"</td><td>" + food[i].foodQuantity 
                 +"</td><td>" + food[i].coreQuantity 
-                + `</td><td><button id = "deleteButton" onclick = deleteFood(this)>Delete</button>`
-                + `</td><td><button id = "editButton" onclick = editFoodForm(this)>Edit</button>`;
+                + `</td><td><button class="tableButton" id = "editButton" onclick = editFoodForm(this)>Edit</button>`
+                + `</td><td><button class="tableButton" id = "deleteButton" onclick = deleteFood(this)>Delete</button>`;
             }
+            main+= "</tbody>"
             var tbl = tbltop + main;
             document.getElementById("fridgeTable").innerHTML = tbl;
-            var addFoodButton = "<button onclick = addFoodForm()>Add Food Item</button>";
+            sortTable();
+            var addFoodButton = "<button class = \"button-37\" onclick = addFoodForm()>Add Food Item</button>";
             document.getElementById("addFood").innerHTML = addFoodButton;
-            var missingCoreButton = "<button onclick = missingCore()>What am I missing?</button>";
+            var missingCoreButton = "<button class = \"button-37\" onclick = missingCore()>What am I missing?</button>";
             document.getElementById("missingCore").innerHTML = missingCoreButton;
         }
         else{
@@ -73,6 +75,29 @@ function getFridge(userId){
         }
     };
     xmlhttp.send();
+}
+
+function sortTable() {
+    var filterTable, rows, sorted, i, x, y, sortFlag;
+    filterTable = document.getElementById("fridgeTable");
+    sorted = true;
+    while (sorted) {
+       sorted = false;
+       rows = filterTable.rows;
+       for (i = 1; i < rows.length - 1; i++) {
+            sortFlag = false;
+            x = rows[i].getElementsByTagName("TD")[0];
+            y = rows[i + 1].getElementsByTagName("TD")[0];
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                sortFlag = true;
+                break;
+            }
+        }
+        if (sortFlag) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            sorted = true;
+        }
+    }
 }
 
 function addFoodForm(){
@@ -105,6 +130,9 @@ function addFood(){
     xmlhttp.send(JSON.stringify(json));
     alert("Food item added!");
     getFridge(userId);
+    if (foodQuantity == ""){
+        foodQuantity = 0;
+    }
     const food = {
         "foodName": foodName,
         "foodQuantity": foodQuantity,
@@ -147,6 +175,7 @@ function editFood(button){
     var table = document.getElementById("fridgeTable");
     var foodName = table.rows[row].cells[0].innerHTML;
     var foodQuantity = document.getElementById("foodQuan").value;
+    var foodQForCore = table.rows[row].cells[1].innerHTML;
     var coreQuantity = document.getElementById("coreQuan").value;
     var userId = document.getElementById("userId").innerHTML;
     var xmlhttp = new XMLHttpRequest();
@@ -161,14 +190,12 @@ function editFood(button){
     getFridge(userId);
     const food = {
         "foodName": foodName,
-        "foodQuantity": foodQuantity,
+        "foodQuantity": foodQForCore,
         "coreQuantity": coreQuantity
     };
-    coreAlert(food);
     document.getElementById("missingList").style.display = "none";
+    coreAlert(food);
 }
-
-
 
 function coreAlert(food){
     var xmlhttp = new XMLHttpRequest();
@@ -176,9 +203,9 @@ function coreAlert(food){
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
     xmlhttp.onreadystatechange = function() {
         if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
-            var bool = JSON.parse(xmlhttp.responseText);
-            if(bool == false){
-                alert("You are under your core value!")
+            var hasCoreFood = JSON.parse(xmlhttp.responseText);
+            if(hasCoreFood == false){
+                alert("You are under your core value!");
             }
         }
         else{
@@ -186,7 +213,6 @@ function coreAlert(food){
         }
     };
     xmlhttp.send(JSON.stringify(food));
-
 }
 
 function missingCore(){

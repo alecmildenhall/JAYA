@@ -115,6 +115,9 @@ public class FridgeService {
       return null;
     }
 
+    //makes the food name all lowercase
+    foodName = foodName.toLowerCase();
+
     Optional<Food> usersFood = fridgeRepository
         .findUsersFood(foodName, userId);
     // update the quantity but don't add new item is food is already present
