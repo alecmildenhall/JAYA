@@ -20,11 +20,16 @@ function collapseEditFoodForm(button){
 }
 
 function collapseNewUserForm(){
-    document.getElementById("newUserForm").style.display = "none";
-    var name = document.getElementById("newUserName").value;
-    var email = document.getElementById("newUserEmail").value;
-    if(name != "" && email != ""){
-        newUser();
+    if(document.getElementById("newUserForm").style != null){
+        document.getElementById("newUserForm").style.display = "none";
+        var name = document.getElementById("newUserName").value;
+        var email = document.getElementById("newUserEmail").value;
+        if(name != "" && email != ""){
+            newUser();
+        }
+        else{
+            alert("Please enter a name and email!");
+        }
     }
 }
 
@@ -49,12 +54,9 @@ var xmlhttp = new XMLHttpRequest();
                 if(document.getElementById("newUser") !== null){
                     document.getElementById("newUser").style.display = "none";
                 }
+                document.getElementById("deleteAccount").innerHTML = `<button id = "deleteAccount" class="button-45" onclick="deleteUser();">Delete Account</button>`;
                 collapseNewUserForm();
-                document.getElementById("deleteAccount").innerHTML = `<button id = "deleteAccount" onclick="deleteUser();">Delete Account</button>`;
             }
-        }
-        else{
-            System.out.println("Error")
         }
     };
     xmlhttp.send();
@@ -68,7 +70,7 @@ function newUserForm(){
     <br><input type=text id=newUserName><br>
     <label for=newUserEmail>Email</label>
     <br><input type=text id=newUserEmail><br>
-    <input type="submit" onclick="collapseNewUserForm(this);" />
+    <input type="submit" class="button-8" onclick="collapseNewUserForm(this);" />
     </form>`;
     user.innerHTML = newUserForm;
     var button = document.getElementById("newUser");
@@ -100,9 +102,6 @@ function newUser(){
                 alert("New user created! Login with email.");
             }
         }
-        else{
-            System.out.println("Error")
-        }
     };
     xmlhttp.send(JSON.stringify(json));
 }
@@ -130,9 +129,6 @@ function getFridge(userId){
             document.getElementById("addFood").innerHTML = addFoodButton;
             var missingCoreButton = "<button class = \"button-37\" onclick = missingCore()>What am I missing?</button>";
             document.getElementById("missingCore").innerHTML = missingCoreButton;
-        }
-        else{
-            System.out.println("Error")
         }
     };
     xmlhttp.send();
@@ -227,8 +223,6 @@ function deleteUser(){
     }
 }
 
-
-
 function editFoodForm(button){
     const edit = document.createElement("edit");
     edit.id = "editFoodForm";
@@ -282,9 +276,6 @@ function coreAlert(food){
                 alert("You are under your core value!");
             }
         }
-        else{
-            System.out.println("Error")
-        }
     };
     xmlhttp.send(JSON.stringify(food));
 }
@@ -298,14 +289,11 @@ function missingCore(){
         if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
             var food = JSON.parse(xmlhttp.responseText);
 
-            var list = ""
+            var list = "<p>You do not have enough of the following items: "
             for (i = 0; i < food.length; i++){
-                list += "<p>" + food[i].foodName + "</p>";
+                list += "<p>" + (i+1) + ". " + food[i].foodName + "</p>";
             }
             document.getElementById("missingList").innerHTML = list;
-        }
-        else{
-            System.out.println("Error")
         }
     };
     xmlhttp.send();

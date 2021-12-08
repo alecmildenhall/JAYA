@@ -117,6 +117,7 @@ public class FridgeService {
 
     //makes the food name all lowercase
     foodName = foodName.toLowerCase();
+    foodName = foodName.substring(0, 1).toUpperCase() + foodName.substring(1);
 
     Optional<Food> usersFood = fridgeRepository
         .findUsersFood(foodName, userId);
