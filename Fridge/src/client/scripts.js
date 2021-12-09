@@ -334,12 +334,12 @@ function getRecipes(){
             // var rec = recipes[i];
             document.getElementById("recipes").innerHTML = "<h1>" + recipes[0].title +"</h1><br>"
             + "<img src='" + recipes[0].image + "'/><br>";
-            alert()
-            // for (var i = 0; i < recipes.length; i++) {
-            //     var rec = recipes[i];
-            //     alert(rec.title);
-            // }
-            // document.getElementById("recipes").innerHTML = "<h1>" + recipes.title +"</h1>";
+            var rec = "";
+            for (var i = 0; i < recipes.length; i++) {
+                rec += "<h1>" + recipes[i].title +"</h1><br>"
+                + "<img src='" + recipes[i].image + "'/><br>";
+            }
+            document.getElementById("recipes").innerHTML = rec;
             }
     };
     xmlhttp.send();
