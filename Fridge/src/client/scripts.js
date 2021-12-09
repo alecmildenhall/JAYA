@@ -1,4 +1,5 @@
 var baseurl = "http://localhost:8080/api/v1/fridge"
+const foodNames = [];
 
 function collapseLoginForm(){
     document.getElementById("emailForm").style.display = "none";
@@ -19,8 +20,8 @@ function collapseEditFoodForm(button){
     editFood(button);
 }
 
-function collapseNewUserForm(){
-    if(document.getElementById("newUserForm").style != null){
+function collapseAndCallNewUserForm(){
+    if(document.getElementById("newUserForm") !== null){
         document.getElementById("newUserForm").style.display = "none";
         var name = document.getElementById("newUserName").value;
         var email = document.getElementById("newUserEmail").value;
@@ -29,7 +30,18 @@ function collapseNewUserForm(){
         }
         else{
             alert("Please enter a name and email!");
+            const button = document.createElement("newUserButton");
+            var newUserButton = `<button id = "newUser" class = "button-8" onclick="newUserForm();">Create New User</button>`;
+            button.innerHTML = newUserButton;
+            var userForm = document.getElementById("newUserForm");
+            userForm.parentNode.replaceChild(button, userForm);
         }
+    }
+}
+
+function collapseNewUserForm(){
+    if(document.getElementById("newUserForm") !== null){
+        document.getElementById("newUserForm").style.display = "none";
     }
 }
 
@@ -55,6 +67,8 @@ var xmlhttp = new XMLHttpRequest();
                     document.getElementById("newUser").style.display = "none";
                 }
                 document.getElementById("deleteAccount").innerHTML = `<button id = "deleteAccount" class="button-45" onclick="deleteUser();">Delete Account</button>`;
+                document.getElementById("logout").innerHTML = `<button id = "logout" class="button-8" onclick="logout();">Logout</button>`;
+                document.getElementById("getRecipe").innerHTML = `<button id = "recipeButton" class="button-8" onclick="getRecipes();">Get Recipes</button>`;
                 collapseNewUserForm();
             }
         }
@@ -70,7 +84,7 @@ function newUserForm(){
     <br><input type=text id=newUserName><br>
     <label for=newUserEmail>Email</label>
     <br><input type=text id=newUserEmail><br>
-    <input type="submit" class="button-8" onclick="collapseNewUserForm(this);" />
+    <input type="submit" class="button-8" onclick="collapseAndCallNewUserForm(this);" />
     </form>`;
     user.innerHTML = newUserForm;
     var button = document.getElementById("newUser");
@@ -93,7 +107,7 @@ function newUser(){
             if (user.userId === -1){
                 alert("Account already exists with that email. Login.");
                 const button = document.createElement("newUserButton");
-                var newUserButton = `<button id = "newUser" onclick="newUserForm();">Create New User</button>`;
+                var newUserButton = `<button id = "newUser" class = "button-8" onclick="newUserForm();">Create New User</button>`;
                 button.innerHTML = newUserButton;
                 var userForm = document.getElementById("newUserForm");
                 userForm.parentNode.replaceChild(button, userForm);
@@ -120,6 +134,7 @@ function getFridge(userId){
                 +"</td><td>" + food[i].coreQuantity 
                 + `</td><td><button class="tableButton" id = "editButton" onclick = editFoodForm(this)>Edit</button>`
                 + `</td><td><button class="tableButton" id = "deleteButton" onclick = deleteFood(this)>Delete</button>`;
+                foodNames[i] = food[i].foodName
             }
             main+= "</tbody>"
             var tbl = tbltop + main;
@@ -218,7 +233,6 @@ function deleteUser(){
     if (confirm('Are you sure you want to delete your account?')) {
         xmlhttp.open("DELETE", baseurl + "/delete-user/" + userId, true);
         xmlhttp.send();
-        alert('Account deleted.');
         window.location.reload();
     }
 }
@@ -295,6 +309,34 @@ function missingCore(){
             }
             document.getElementById("missingList").innerHTML = list;
         }
+    };
+    xmlhttp.send();
+}
+
+function logout(){
+    window.location.reload();
+}
+
+function getRecipes(){
+    var xmlhttp = new XMLHttpRequest();
+    var ingredients = foodNames[0];
+    for(i = 1; i < foodNames.length; i++){
+        ingredients += "," + foodNames[i];
+    }
+    alert(ingredients);
+    // xmlhttp.open("GET", baseurl + "/get-recipe/ingredients/" + ingredients, true);
+    xmlhttp.open("GET", baseurl + "/get-recipe/ingredients/lemon,sugar", true);
+    xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+            alert("Got it ");
+            alert(xmlhttp.responseText);
+            var recipes = JSON.parse(xmlhttp.responseText);
+            for (var i = 0; i < 2; i++) {
+                var ingr = recipes.usedIngredients[i];
+                alert(ingr.name);
+            }
+            // document.getElementById("recipes").innerHTML = "<h1>" + recipes.title +"</h1>";
+            }
     };
     xmlhttp.send();
 }

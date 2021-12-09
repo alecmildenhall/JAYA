@@ -29,7 +29,7 @@ body{
 }
 
 /*Login and create new user buttons*/
-.button-8 {
+.button-8{
   background-color: #009879;
   border-radius: 3px;
   border: 1px solid #006853;
@@ -54,6 +54,7 @@ body{
   vertical-align: baseline;
   white-space: nowrap;
 }
+
 #loginButton{
   margin-top:10px;
 }
@@ -62,10 +63,10 @@ body{
   background-color: #b3d3ea;
   color: #2c5777;
 }
-.button-8:focus {
+.button-8:focus{
   box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
 }
-.button-8:active {
+.button-8:active{
   background-color: #a0c7e4;
   box-shadow: none;
   color: #2c5777;

@@ -1,5 +1,7 @@
 package com.jaya.fridge;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 import com.squareup.okhttp.Response;
+import org.json.simple.parser.ParseException;
 
 @CrossOrigin
 @RestController
@@ -67,7 +70,7 @@ public class FridgeController {
   }
 
   @GetMapping(path = "get-recipe/ingredients/{ingredients}")
-  public Response getRecipe(@PathVariable String ingredients ) throws IOException {
+  public JSONArray getRecipe(@PathVariable String ingredients ) throws IOException, ParseException {
     return fridgeService.getRecipe(ingredients);
   }
 

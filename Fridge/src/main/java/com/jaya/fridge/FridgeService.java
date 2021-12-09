@@ -6,9 +6,16 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 @Service
@@ -169,7 +176,7 @@ public class FridgeService {
     }
   }
 
-public Response getRecipe(String ingredients) throws IOException{
+public JSONArray getRecipe(String ingredients) throws IOException, ParseException{
   OkHttpClient client = new OkHttpClient();
    String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=";
    url += ingredients.replace(",", "%2C");
@@ -182,7 +189,14 @@ public Response getRecipe(String ingredients) throws IOException{
     .addHeader("x-rapidapi-key", "baff636bb0msh6c837292fc1a057p1d43bejsn20d37ef436f6")
     .build();
 
-  response = client.newCall(request).execute();
-  return response;
+  Response response = client.newCall(request).execute();
+  JSONParser parser = new JSONParser();
+  String recipe = response.body().string();
+  JSONArray json = (JSONArray) parser.parse(recipe);
+  for(int i = 0; i < json.size(); i++){
+		JSONObject obj = (JSONObject)json.get(i);
+    System.out.println(obj.get("title".toString()));
+  }
+  return json;
 }
 }
