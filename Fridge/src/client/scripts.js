@@ -331,10 +331,14 @@ function getRecipes(){
             alert("Got it ");
             alert(xmlhttp.responseText);
             var recipes = JSON.parse(xmlhttp.responseText);
-            for (var i = 0; i < 2; i++) {
-                var ingr = recipes.usedIngredients[i];
-                alert(ingr.name);
-            }
+            // var rec = recipes[i];
+            document.getElementById("recipes").innerHTML = "<h1>" + recipes[0].title +"</h1><br>"
+            + "<img src='" + recipes[0].image + "'/><br>";
+            alert()
+            // for (var i = 0; i < recipes.length; i++) {
+            //     var rec = recipes[i];
+            //     alert(rec.title);
+            // }
             // document.getElementById("recipes").innerHTML = "<h1>" + recipes.title +"</h1>";
             }
     };
