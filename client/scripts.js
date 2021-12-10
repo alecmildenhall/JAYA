@@ -282,8 +282,6 @@ function editFood(button){
     xmlhttp.send(JSON.stringify(json));
     alert("Food item updated!");
     getFridge(userId);
-    alert(foodQForCore);
-    alert(coreForCore);
     const food = {
         "foodName": foodName,
         "foodQuantity": foodQForCore,
