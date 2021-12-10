@@ -5,10 +5,6 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.*;
-
-import com.squareup.okhttp.Response;
 import org.json.simple.parser.ParseException;
 
 @CrossOrigin
