@@ -338,22 +338,47 @@ function getRecipes(){
         ingredients += "," + foodNames[i];
     }
     alert(ingredients);
-    // xmlhttp.open("GET", baseurl + "/get-recipe/ingredients/" + ingredients, true);
-    xmlhttp.open("GET", baseurl + "/get-recipe/ingredients/lemon,sugar", true);
+    xmlhttp.open("GET", baseurl + "/get-recipe/ingredients/" + ingredients, true);
     xmlhttp.onreadystatechange = function() {
         if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
-            alert("Got it ");
-            alert(xmlhttp.responseText);
             var recipes = JSON.parse(xmlhttp.responseText);
-            // var rec = recipes[i];
             document.getElementById("recipes").innerHTML = "<h1>" + recipes[0].title +"</h1><br>"
             + "<img src='" + recipes[0].image + "'/><br>";
             var rec = "";
+            var used = "";
+            var missed = "";
+            alert(recipes[0].usedIngredients[0].name);
             for (var i = 0; i < recipes.length; i++) {
+                for(var j = 0; j <recipes[i].usedIngredients.length; j++){
+                    used = "";
+                    used += recipes[i].usedIngredients[j].name + ", "
+                }
+                alert(used);
+                for(var h = 0; h <recipes[i].missedIngredients.length; h++){
+                    missed = "";
+                    missed += recipes[i].missedIngredients[h].name + ", "
+                }
+                alert(missed);
                 rec += "<h1>" + recipes[i].title +"</h1><br>"
-                + "<img src='" + recipes[i].image + "'/><br>";
+                + "<img src='" + recipes[i].image + "'/><br>"
+                +"<p> Used ingredients from your fridge: " + used + "</p><br>"
+                +"<p> Ingredients used you don't have: " + missed + "</p><br>"
+                + '<button id = "recipeLinkButton" onclick = getRecipeLink(' + recipes[i].id +')>Go to recipe</button><br>';
             }
             document.getElementById("recipes").innerHTML = rec;
+            }
+    };
+    xmlhttp.send();
+}
+
+function getRecipeLink(recipeId){
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", baseurl + "/get-recipe-link/recipeId/" + recipeId, true);
+    xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+            var recipeLink = JSON.parse(xmlhttp.responseText);
+            var url = recipeLink.sourceUrl;
+            window.location.href = url;
             }
     };
     xmlhttp.send();

@@ -74,4 +74,9 @@ public class FridgeController {
     return fridgeService.getRecipe(ingredients);
   }
 
+  @GetMapping(path = "get-recipe-link/recipeId/{recipeId}")
+  public JSONObject getRecipeLink(@PathVariable Long recipeId ) throws IOException, ParseException {
+    return fridgeService.getRecipeLink(recipeId);
+  }
+
 }
