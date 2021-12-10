@@ -181,7 +181,7 @@ function addFoodForm(){
         <br><input type=number id=foodQuantity><br>
         <label for=coreQuantity>How many would you like in your fridge at all times?:</label>
         <br><input type=number id=coreQuantity><br>
-        <input type="submit" onclick="collapseAddFoodForm();" />
+        <input type="submit" class="button-11" onclick="collapseAddFoodForm();" />
     </form>`
     document.getElementById("addFoodForm").innerHTML = addFoodForm;
     document.getElementById("addFoodForm").style.display = 'block';
@@ -257,8 +257,20 @@ function editFood(button){
     var table = document.getElementById("fridgeTable");
     var foodName = table.rows[row].cells[0].innerHTML;
     var foodQuantity = document.getElementById("foodQuan").value;
-    var foodQForCore = table.rows[row].cells[1].innerHTML;
     var coreQuantity = document.getElementById("coreQuan").value;
+    //makes sure the correct food and core gets checked in coreAlert
+    if(foodQuantity != "" && foodQuantity != null){
+        var foodQForCore = parseInt(table.rows[row].cells[1].innerHTML) + parseInt(foodQuantity);
+    }
+    else{
+        var foodQForCore = table.rows[row].cells[1].innerHTML;
+    }
+    if(coreQuantity != "" && coreQuantity != null){
+        var coreForCore = parseInt(table.rows[row].cells[2].innerHTML) + parseInt(coreQuantity);
+    }
+    else{
+        var coreForCore = table.rows[row].cells[2].innerHTML;
+    }
     var userId = document.getElementById("userId").innerHTML;
     var xmlhttp = new XMLHttpRequest();
     const json = {
@@ -270,10 +282,12 @@ function editFood(button){
     xmlhttp.send(JSON.stringify(json));
     alert("Food item updated!");
     getFridge(userId);
+    alert(foodQForCore);
+    alert(coreForCore);
     const food = {
         "foodName": foodName,
         "foodQuantity": foodQForCore,
-        "coreQuantity": coreQuantity
+        "coreQuantity": coreForCore
     };
     document.getElementById("missingList").style.display = "none";
     coreAlert(food);
