@@ -199,4 +199,27 @@ public JSONArray getRecipe(String ingredients) throws IOException, ParseExceptio
   }
   return json;
 }
+
+
+public JSONObject getRecipeLink(Long recipeId) throws IOException, ParseException{
+  OkHttpClient client = new OkHttpClient();
+   String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/";
+   url += recipeId.toString();
+   url += "/information";
+
+   Request request = new Request.Builder()
+   .url(url)
+   .get()
+   .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+   .addHeader("x-rapidapi-key", "baff636bb0msh6c837292fc1a057p1d43bejsn20d37ef436f6")
+   .build();
+ 
+  Response response = client.newCall(request).execute();
+
+  JSONParser parser = new JSONParser();
+  String recipeLink = response.body().string();
+  JSONObject json = (JSONObject) parser.parse(recipeLink);
+  System.out.println(json.get("sourceUrl".toString()));
+  return json;
+}
 }
