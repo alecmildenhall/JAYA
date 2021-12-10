@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -125,4 +126,10 @@ public class FridgeControllerTests {
         .andExpect(content().json("{\"userId\": 1, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}"));
    }
 
+//    @Test
+//    void getRecipeTest(@Autowired MockMvc mvc) throws Exception {
+//         mvc.perform(get("/api/v1/fridge/get-recipe/ingredients/lemon,sugar"))
+//         .andExpect(status().isOk())
+//         .andExpect(jsonPath("$", hasSize(5)));
+//    }
 }

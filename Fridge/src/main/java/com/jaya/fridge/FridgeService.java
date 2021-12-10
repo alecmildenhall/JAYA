@@ -180,7 +180,7 @@ public JSONArray getRecipe(String ingredients) throws IOException, ParseExceptio
   OkHttpClient client = new OkHttpClient();
    String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=";
    url += ingredients.replace(",", "%2C");
-   url += "&number=5&ignorePantry=true&ranking=1";
+   url += "&number=5&ignorePantry=false&ranking=1";
 
   Request request = new Request.Builder()
     .url(url)
