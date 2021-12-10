@@ -7,6 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * Food class represents a food item in a user's fridge.
+ */
+
 @Entity
 @Table
 public class Food {
