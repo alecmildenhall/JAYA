@@ -82,8 +82,8 @@ var xmlhttp = new XMLHttpRequest();
                     document.getElementById("newUser").style.display = "none";
                 }
                 document.getElementById("deleteAccount").innerHTML = `<button id = "deleteAccount" class="button-45" onclick="deleteUser();">Delete Account</button>`;
-                document.getElementById("logout").innerHTML = `<button id = "logout" class="button-8" onclick="logout();">Logout</button>`;
                 document.getElementById("getRecipe").innerHTML = `<button id = "recipeButton" class="button-8" onclick="getRecipesForm();">Get Recipes</button>`;
+                document.getElementById("logout").innerHTML = `<button id = "logout" class="button-8" onclick="logout();">Logout</button>`;
                 collapseNewUserForm();
             }
         }
@@ -259,7 +259,7 @@ function editFoodForm(button){
     <br><input type=number id=foodQuan><br>
     <label for=coreQuan>How many would you like in your fridge at all times?</label>
     <br><input type=number id=coreQuan><br>
-    <input type="submit" onclick="collapseEditFoodForm(this);" />
+    <input class = "button-11" type="submit" onclick="collapseEditFoodForm(this);" />
     </form>`;
     edit.innerHTML = editFoodForm;
     button.parentNode.replaceChild(edit, button);
@@ -346,13 +346,13 @@ function logout(){
 function getRecipesForm(){
     document.getElementById("getRecipesForm").style.display = "block";
     var getrec = `
-    <label for=foodName1>Which foods would you lika a recipe for?</label>
-    <br><input type=text id=foodName1><br>
-    <br><input type=text id=foodName2><br>
-    <br><input type=text id=foodName3><br>
-    <input type="submit" onclick="collapseGetRecipesForm(this);" />
+    <label for=foodName1>Which foods would you like a recipe for?</label>
+    <br><input id = "recipieInputs" type=text id=foodName1><br>
+    <br><input id = "recipieInputs" type=text id=foodName2><br>
+    <br><input id = "recipieInputs" type=text id=foodName3><br>
+    <input class = "button-11" type="submit" onclick="collapseGetRecipesForm(this);" />
     <p>OR</p>
-    <button id="getRecipesAll" onclick= getAllFood();>Get Recipes for all Ingredients in your fridge</button>
+    <button id="getRecipesAll" class = "button-37" onclick= getAllFood();>Get Recipes for all Ingredients in your fridge</button>
     </form>`;
     document.getElementById("getRecipesForm").innerHTML = getrec;
 }
@@ -388,7 +388,7 @@ function getRecipes(ingredients){
                 + "<img src='" + recipes[i].image + "'/><br>"
                 +"<p> Used ingredients from your fridge: " + used + "</p><br>"
                 +"<p> Ingredients used you don't have: " + missed + "</p><br>"
-                + '<button id = "recipeLinkButton" onclick = getRecipeLink(' + recipes[i].id +')>Go to recipe</button><br>';
+                + '<button id = "recipeLinkButton" class = "button-11" onclick = getRecipeLink(' + recipes[i].id +')>Go to recipe</button><br>';
             }
             document.getElementById("recipes").innerHTML = rec;
             }
