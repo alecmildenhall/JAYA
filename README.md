@@ -212,9 +212,25 @@ None
 To add a user and their corresponding user ID, name, and email to the table of users within the database, use the following endpoint.
 ### POST /api/v1/fridge/add-user
 #### Arguments:
-User user: An object of type User containing Long userId, String name, and String email to be sent in the request body
+User user: A User object with a Long userId, String name, and String email.
+#### Example:
+```bash
+{
+    "userId": 21,
+    "email": "jsmith@gmail.com",
+    "name": "Jake Smith"
+}
+```
 ### Return:
-None
+User user: A User object with a Long userId, String name, and String email. A User object with userID -1L is returned if the email or userID already exists.
+#### Example:
+```bash
+{
+    "userId": -1,
+    "email": "jsmith@gmail.com",
+    "name": "Jake Smith"
+}
+```
 
 ## Delete a user and all their records
 To delete a user from the users table and all of their corresponding food records from the food table of the database, use the following endpoint.
