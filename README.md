@@ -182,12 +182,27 @@ Long userId: The Long representing the ID of the user to be deleted sent in the 
 ### Return:
 None
 
+## Get user with user email
+To return a user object by providing the desired user's email, use the following endpoint.
+### GET /api/v1/fridge/get-user/{email}
+#### Arguments:
+String email: The String representing the email of the user given in the path variable
+### Return:
+User user: An object of type User containing Long userId, String name, and String email
+#### Example:
+```bash
+{
+    "userId": 21,
+    "email": "jsmith@gmail.com",
+    "name": "Jake Smith"
+}
+```
+
 ## Update the quantity of a specific user’s food item
 To either generate a new food object (if it doesn’t exist) for a specific user, or update the food/core quantity by a certain amount, use the following endpoint. If a value is inputted for food quantity (and the food exists in the user’s fridge), the original food quantity will be adjusted by the value given. If a value for core is inputted, the original core value will be replaced with the new one. 
 ### POST /api/v1/fridge/user/{userId}/food/{foodName}/update
 #### Arguments:
 UpdateQuantity delta: An object of type UpdateQuantity containing Long deltaFoodQuantity and Long newCoreQuantity to be sent in the request body. Long deltaFoodQuantity represents the amount for the food quantity to change and Long newCoreQuantity represents the quantity core may be updated to.
-
 Long userId: The Long representing the ID of the user to be deleted sent as a path variable
 
 String foodName: The string representing the food name with the quantity to be updated.
