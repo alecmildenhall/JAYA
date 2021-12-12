@@ -42,8 +42,6 @@ To view the contents of the users table, enter the following command into your t
 ```bash
 SELECT * FROM users;
 ```
-## Test
-Install the Postman app or access Postman through your web browser [here](https://www.postman.com/downloads/).
 
 ## Build Demo Client
 After following the steps above (Build, Test), open index.html in a web browser to start the demo client for Fridge API.
@@ -51,6 +49,8 @@ After following the steps above (Build, Test), open index.html in a web browser 
 ## Run Demo Client
 Login with an email existing in the user table and click submit to view the foods and their respective quantities in your fridge. From here, the button "delete" can be used to delete a food item, "Add Food Item" can be used to update the quanitity of an existing item in the fridge or add a new item entirely, and "What Am I Missing?" can be used to generate a list of food items that are missing from your fridge (the food items that have less quanitity than their given core quantities). 
 
+## Test
+Install the Postman app or access Postman through your web browser [here](https://www.postman.com/downloads/).
 
 ### getFridge
 To get a specific user's fridge, create a GET request in Postman with the following request url:
@@ -79,6 +79,22 @@ Add a number to represent the userId of the desired user in raw JSON format unde
 10
 ```
 
+### hasCoreFood
+To return a boolean value about whether the given food item has less quantity than its core quantity, create a POST request in Postman with the following request url:
+```bash
+localhost:8080/api/v1/fridge/has-core
+```
+In the body, provide a food object in JSON. An example is shown below:
+```bash
+{
+    "rowID": 103,
+    "userID": 3,
+    "foodName": "juice",
+    "foodQuantity": 10,
+    "coreQuantity": 2
+}
+```
+
 ### deleteItem
 To completely delete a specific food from a specified user’s fridge, create a DELETE request in Postman with the following request url:
 ```bash
@@ -88,6 +104,13 @@ localhost:8080/api/v1/fridge/user/{userId}/food/{foodName}/delete
 ```bash
 localhost:8080/api/v1/fridge/user/10/food/carrot
 ```
+
+### getUser
+To get a user object from a specified user's emai, create a GET request in Postman with the following request url:
+```bash
+localhost:8080/api/v1/fridge/get-user/{email}
+```
+{email} can be replaced with a string representing the desired user's email.
 
 ### addUser
 To add a user to the users table, create a POST request in Postman with the following request url:
@@ -148,6 +171,7 @@ To request the content of all users’ fridges, use the following endpoint.
 None
 ### Return:
 This request will return a list of all user's fridges.
+
 ## Get a list of food items with quantities fewer than their core quantities
 To request the food items of a specific user’s fridge where the quantities of the food items are less than their core quantities, use the following endpoint.
 ### GET /api/v1/fridge/missing-core
@@ -155,6 +179,24 @@ To request the food items of a specific user’s fridge where the quantities of 
 Long userId: A Long representing the unique ID of the user whose food quantities need to be examined
 ### Return:
 This request will return a list of food items with quantities less than their core quantities.
+
+## Check if a food quantity is below core quantity
+To return a boolean representing whether or not a given food item has a food quantity less than its core quantity, use the following endpoint.
+### POST /api/v1/fridge/has-core
+#### Arguments:
+Food f: A Food object with Long rowId, Long userId, String foodName, Long foodQuantity, Long coreQuantity.
+##### Example:
+```bash
+{
+    "rowID": 103,
+    "userID": 3,
+    "foodName": "juice",
+    "foodQuantity": 10,
+    "coreQuantity": 2
+}
+```
+#### Return:
+This request will return a boolean, true if the food quantity is greater than its core quantity and if the core quantity is null, otherwise it returns false.
 
 ## Delete a specific user’s food item
 To request to delete a specific item in a specific user’s fridge, use the following endpoint.
