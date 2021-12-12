@@ -47,7 +47,7 @@ SELECT * FROM users;
 After following the steps above (Build, Test), open index.html in a web browser to start the demo client for Fridge API.
 
 ## Run Demo Client
-Login with an email existing in the user table and click submit to view the foods and their respective quantities in your fridge. From here, the button "delete" can be used to delete a food item, "Add Food Item" can be used to update the quanitity of an existing item in the fridge or add a new item entirely, and "What Am I Missing?" can be used to generate a list of food items that are missing from your fridge (the food items that have less quanitity than their given core quantities). 
+Login with an email existing in the user table and click submit to view the foods and their respective quantities in your fridge or create a new user with an empty fridge. From here, the button "delete" can be used to delete a food item, "Edit" to change the food or core quantity of an item, "Delete Account" to delete the account currently logged in, "Get Recipes" to generate recipes based off of 3 ingredients you can input or based on the current ingredients in your fridge, or "logout" to logout of the account.
 
 ## Test
 Install the Postman app or access Postman through your web browser [here](https://www.postman.com/downloads/).
@@ -153,6 +153,11 @@ An UpdateQuantity object that represents the desired quantity change must be giv
 }
 ```
 This will end up deleting 8 apples from user 40’s fridge, and update the core quantity of the apple food to 0.
+
+### getRecipe
+
+
+### getRecipleLink
 
 # API Documentation
 
