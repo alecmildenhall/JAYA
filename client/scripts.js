@@ -20,6 +20,21 @@ function collapseEditFoodForm(button){
     editFood(button);
 }
 
+function collapseGetRecipesForm(button){
+    document.getElementById("getRecipesForm").style.display = "none";
+    var ingredients = "";
+    if (document.getElementById("foodName1") !== null){
+        ingredients = document.getElementById("foodName1").value;
+    } 
+    if (document.getElementById("foodName2") !== null){
+        ingredients += "," + document.getElementById("foodName2").value;
+    } 
+    if (document.getElementById("foodName3") !== null){
+        ingredients += "," + document.getElementById("foodName3").value;
+    } 
+    getRecipes(ingredients);
+}
+
 function collapseAndCallNewUserForm(){
     if(document.getElementById("newUserForm") !== null){
         document.getElementById("newUserForm").style.display = "none";
@@ -67,8 +82,8 @@ var xmlhttp = new XMLHttpRequest();
                     document.getElementById("newUser").style.display = "none";
                 }
                 document.getElementById("deleteAccount").innerHTML = `<button id = "deleteAccount" class="button-45" onclick="deleteUser();">Delete Account</button>`;
+                document.getElementById("getRecipe").innerHTML = `<button id = "recipeButton" class="button-8" onclick="getRecipesForm();">Get Recipes</button>`;
                 document.getElementById("logout").innerHTML = `<button id = "logout" class="button-8" onclick="logout();">Logout</button>`;
-                document.getElementById("getRecipe").innerHTML = `<button id = "recipeButton" class="button-8" onclick="getRecipes();">Get Recipes</button>`;
                 collapseNewUserForm();
             }
         }
@@ -223,7 +238,6 @@ function deleteFood(button){
     xmlhttp.open("DELETE", baseurl + "/user/" + userId + "/food/" + foodName + "/delete", true);
     xmlhttp.send();
     alert("Food item deleted!");
-    alert("Food item deleted!");
     getFridge(userId);
 }
 
@@ -245,7 +259,7 @@ function editFoodForm(button){
     <br><input type=number id=foodQuan><br>
     <label for=coreQuan>How many would you like in your fridge at all times?</label>
     <br><input type=number id=coreQuan><br>
-    <input type="submit" onclick="collapseEditFoodForm(this);" />
+    <input class = "button-11" type="submit" onclick="collapseEditFoodForm(this);" />
     </form>`;
     edit.innerHTML = editFoodForm;
     button.parentNode.replaceChild(edit, button);
@@ -329,39 +343,52 @@ function logout(){
     window.location.reload();
 }
 
-function getRecipes(){
-    var xmlhttp = new XMLHttpRequest();
+function getRecipesForm(){
+    document.getElementById("getRecipesForm").style.display = "block";
+    var getrec = `
+    <label for=foodName1>Which foods would you like a recipe for?</label>
+    <br><input id = "recipieInputs" type=text id=foodName1><br>
+    <br><input id = "recipieInputs" type=text id=foodName2><br>
+    <br><input id = "recipieInputs" type=text id=foodName3><br>
+    <input class = "button-11" type="submit" onclick="collapseGetRecipesForm(this);" />
+    <p>OR</p>
+    <button id="getRecipesAll" class = "button-37" onclick= getAllFood();>Get Recipes for all Ingredients in your fridge</button>
+    </form>`;
+    document.getElementById("getRecipesForm").innerHTML = getrec;
+}
+
+function getAllFood(){
     var ingredients = foodNames[0];
     for(i = 1; i < foodNames.length; i++){
         ingredients += "," + foodNames[i];
     }
-    alert(ingredients);
+    collapseGetRecipesForm();
+    getRecipes(ingredients);
+}
+
+function getRecipes(ingredients){
+    var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", baseurl + "/get-recipe/ingredients/" + ingredients, true);
     xmlhttp.onreadystatechange = function() {
         if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
             var recipes = JSON.parse(xmlhttp.responseText);
-            document.getElementById("recipes").innerHTML = "<h1>" + recipes[0].title +"</h1><br>"
-            + "<img src='" + recipes[0].image + "'/><br>";
             var rec = "";
             var used = "";
             var missed = "";
-            alert(recipes[0].usedIngredients[0].name);
             for (var i = 0; i < recipes.length; i++) {
+                used = "";
+                missed = "";
                 for(var j = 0; j <recipes[i].usedIngredients.length; j++){
-                    used = "";
                     used += recipes[i].usedIngredients[j].name + ", "
                 }
-                alert(used);
                 for(var h = 0; h <recipes[i].missedIngredients.length; h++){
-                    missed = "";
                     missed += recipes[i].missedIngredients[h].name + ", "
                 }
-                alert(missed);
                 rec += "<h1>" + recipes[i].title +"</h1><br>"
                 + "<img src='" + recipes[i].image + "'/><br>"
                 +"<p> Used ingredients from your fridge: " + used + "</p><br>"
                 +"<p> Ingredients used you don't have: " + missed + "</p><br>"
-                + '<button id = "recipeLinkButton" onclick = getRecipeLink(' + recipes[i].id +')>Go to recipe</button><br>';
+                + '<button id = "recipeLinkButton" class = "button-11" onclick = getRecipeLink(' + recipes[i].id +')>Go to recipe</button><br>';
             }
             document.getElementById("recipes").innerHTML = rec;
             }
