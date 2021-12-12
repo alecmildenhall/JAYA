@@ -55,13 +55,9 @@ Install the Postman app or access Postman through your web browser [here](https:
 ### getFridge
 To get a specific user's fridge, create a GET request in Postman with the following request url:
 ```bash
-localhost:8080/api/v1/fridge/get-fridge
+localhost:8080/api/v1/fridge/get-fridge/{userId}
 ```
-Add a number to represent the userId of the desired user in raw JSON format under the Body and send the request. An example is shown below:
-```bash
-10
-```
-This request will return a list of all the specified user's items that are stored in their fridge.
+Add a number to represent the userId of the desired user for {userId}.
 
 ### getFridgeAll
 To get every user’s fridge, create a GET request in Postman with the following request url:
@@ -129,12 +125,9 @@ A User object that represents the desired user to be added must be given in raw 
 ### deleteUser
 To delete a user from the users table and remove all their fridge items from food, create a DELETE request in Postman with the following request url:
 ```bash
-localhost:8080/api/v1/fridge/delete-user
+localhost:8080/api/v1/fridge/delete-user/{userId}
 ```
-Add a number to represent the userId of the desired user in raw JSON format under the Body and send the request. An example is shown below:
-```bash
-10
-```
+Add a number to represent the userId in {userId}.
 
 ### updateFood
 To update the quantity of a specific user's food or generate a new food if it doesn’t exist in that user’s fridge, create a POST request in Postman with the following request url:
@@ -163,7 +156,7 @@ This will end up deleting 8 apples from user 40’s fridge, and update the core 
 
 ## Get a specified user's fridge
 To request the content of a specific user’s fridge, use the following endpoint.
-### GET /api/v1/fridge/get-fridge
+### GET /api/v1/fridge/get-fridge/{userId}
 #### Arguments:
 Long userId: A Long representing the unique ID of the user of the fridge to be returned sent in the request body
 ### Return:
@@ -211,7 +204,7 @@ Long userID: A Long representing the unique ID of the user whose food is to be d
 
 String foodName: A string representing the name of the food item to be deleted sent as a path variable
 ### Return:
-None
+Boolean: true is item existed, false if item did not exist.
 
 ## Add a user to the database
 To add a user and their corresponding user ID, name, and email to the table of users within the database, use the following endpoint.
@@ -239,11 +232,11 @@ User user: A User object with a Long userId, String name, and String email. A Us
 
 ## Delete a user and all their records
 To delete a user from the users table and all of their corresponding food records from the food table of the database, use the following endpoint.
-### DELETE /api/v1/fridge/delete-user
+### DELETE /api/v1/fridge/delete-user/{userId}
 #### Arguments:
-Long userId: The Long representing the ID of the user to be deleted sent in the request body
+Long userId: The Long representing the ID of the user sent as a path variable.
 ### Return:
-None
+Boolean: True when deletions are complete.
 
 ## Get user with user email
 To return a user object by providing the desired user's email, use the following endpoint.
