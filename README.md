@@ -4,7 +4,7 @@ Fridge API is a service that allows users to maintain the contents of their
 “fridges,” a personal list of food items that can be added to, deleted from, or updated 
 in some way. Users can also keep a record of "core ingredients," food items that they want to always have a certain quantity of in their fridge.
 If what they have listed in the core list is not met by what is currently in their fridge, a list of items that have been under-purchased can be generated. 
-Users and their respective fridges can be added to and deleted at any time.
+Users and their respective fridges can be added to and deleted at any time. Users can also generate recipes based upon the ingredients in their fridge.
 
 ## Build
 
@@ -42,9 +42,15 @@ To view the contents of the users table, enter the following command into your t
 ```bash
 SELECT * FROM users;
 ```
-
 ## Test
 Install the Postman app or access Postman through your web browser [here](https://www.postman.com/downloads/).
+
+## Build Demo Client
+After following the steps above (Build, Test), open index.html in a web browser to start the demo client for Fridge API.
+
+## Run Demo Client
+Login with an email existing in the user table and click submit to view the foods and their respective quantities in your fridge. From here, the button "delete" can be used to delete a food item, "Add Food Item" can be used to update the quanitity of an existing item in the fridge or add a new item entirely, and "What Am I Missing?" can be used to generate a list of food items that are missing from your fridge (the food items that have less quanitity than their given core quantities). 
+
 
 ### getFridge
 To get a specific user's fridge, create a GET request in Postman with the following request url:
