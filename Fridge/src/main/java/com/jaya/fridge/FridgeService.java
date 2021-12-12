@@ -3,13 +3,12 @@ package com.jaya.fridge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.*;
+
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-
-import java.util.*;
-import java.io.IOException;
-
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -178,7 +177,7 @@ public JSONArray getRecipe(String ingredients) throws IOException, ParseExceptio
   OkHttpClient client = new OkHttpClient();
    String url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=";
    url += ingredients.replace(",", "%2C");
-   url += "&number=5&ignorePantry=true&ranking=1";
+   url += "&number=5&ignorePantry=false&ranking=1";
 
   Request request = new Request.Builder()
     .url(url)
