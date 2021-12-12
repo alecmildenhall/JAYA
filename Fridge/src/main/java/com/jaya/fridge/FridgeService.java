@@ -21,7 +21,6 @@ public class FridgeService {
 
   private final FridgeRepository fridgeRepository;
   private final UserRepository userRepository;
-  public Response response;
 
   @Autowired
   public FridgeService(FridgeRepository fridgeRepository, UserRepository userRepository) {
