@@ -273,9 +273,17 @@ String foodName: The string representing the food name with the quantity to be u
 None
 
 ### Generate a list of recipes
-To return an list of recipes based off of inputted ingredients, use the following endpoint. This endpoint takes use of the 3rd party API [spoonacular](https://spoonacular.com/food-api), specifically the GET request findByIngredients. Examples of arguments and return values as well as additional information can be found in the original documentation can be found [here](https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients).
+To return an list of recipes based off of inputted ingredients, use the following endpoint. This endpoint takes use of the 3rd party API [spoonacular](https://spoonacular.com/food-api), specifically the GET request /recipes/findByIngredients. Examples of arguments and return values as well as additional information can be found in the original documentation can be found [here](https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients).
 ### GET /api/v1/fridge/get-recipe/ingredients/{ingredients}
 #### Arguments:
 String ingredients: A string representing the ingredients desired to generate recipes passed in as a path variable.
 ### Return:
 JSONArray json: A JSON array of recipes.
+
+### Generate a recipe link
+To generate a link to a given endpoint, use the following endpoint. This endpoint takes use of the 3rd party API [spoonacular](https://spoonacular.com/food-api), specifically the GET request /recipes/{id}/information. Examples of arguments and return values as well as additional information can be found in the original documentation can be found [here](https://spoonacular.com/food-api/docs#Get-Recipe-Information).
+### GET /api/v1/fridge/get-recipe-link/recipeId/{recipeId}
+#### Arguments:
+Long recipleId: A Long representing the id of the desired recipe passed in as a path variable.
+### Return:
+JSONObject json: A JSON object representing the recipe link.
