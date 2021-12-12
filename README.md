@@ -271,3 +271,11 @@ Long userId: The Long representing the ID of the user to be deleted sent as a pa
 String foodName: The string representing the food name with the quantity to be updated.
 ### Return:
 None
+
+### Generate a list of recipes
+To return an list of recipes based off of inputted ingredients, use the following endpoint. This endpoint takes use of the 3rd party API [spoonacular](https://spoonacular.com/food-api), specifically the GET request findByIngredients. Examples of arguments and return values as well as additional information can be found in the original documentation can be found [here](https://spoonacular.com/food-api/docs#Search-Recipes-by-Ingredients).
+### GET /api/v1/fridge/get-recipe/ingredients/{ingredients}
+#### Arguments:
+String ingredients: A string representing the ingredients desired to generate recipes passed in as a path variable.
+### Return:
+JSONArray json: A JSON array of recipes.
