@@ -17,7 +17,6 @@ on:
           with:
             java-version: 1.8
         - name: Run Coverage
-          working-directory: Fridge
           run: |
             chmod +x gradlew
             ./gradlew testCoverage
@@ -31,3 +30,4 @@ on:
             token: ${{ secrets.CODECOV_TOKEN }}
             min-coverage-overall: 40
             min-coverage-changed-files: 60
+            working-directory: Fridge
