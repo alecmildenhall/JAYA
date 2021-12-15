@@ -50,7 +50,7 @@ After following the steps above (Build, Test), open index.html in a web browser 
 Login with an email existing in the user table and click submit to view the foods and their respective quantities in your fridge or create a new user with an empty fridge. From here, the button "delete" can be used to delete a food item, "Edit" to change the food or core quantity of an item, "Delete Account" to delete the account currently logged in, "Get Recipes" to generate recipes based off of 3 ingredients you can input or based on the current ingredients in your fridge, or "logout" to logout of the account.
 
 ## Test
-Install the Postman app or access Postman through your web browser [here](https://www.postman.com/downloads/).
+Install the Postman app or access Postman through your web browser [here](https://www.postman.com/downloads/). All continuous integration (CI), including CI reports and runs from all workflows, can be found in GitHub Actions (see actions tab).
 
 ### getFridge
 To get a specific user's fridge, create a GET request in Postman with the following request url:
