@@ -35,36 +35,12 @@ public class Food {
   public Food() {
   }
 
-  //constructor with all values defined
-  public Food(Long rowId, Long userId, String foodName, Long foodQuantity, Long coreQuantity) {
-    this.rowId = rowId;
-    this.userId = userId;
-    this.foodName = foodName;
-    this.foodQuantity = foodQuantity;
-    this.coreQuantity = coreQuantity;
-  }
-
   //constructor without rowID
   public Food(Long userId, String foodName, Long foodQuantity, Long coreQuantity) {
     this.userId = userId;
     this.foodName = foodName;
     this.foodQuantity = foodQuantity;
     this.coreQuantity = coreQuantity;
-  }
-
-  //constructor without coreQuantity
-  public Food(Long rowId, Long userId, String foodName, Long foodQuantity) {
-    this.rowId = rowId;
-    this.userId = userId;
-    this.foodName = foodName;
-    this.foodQuantity = foodQuantity;
-  }
-
-  //constructor without rowID and coreQuantity
-  public Food(Long userId, String foodName, Long foodQuantity) {
-    this.userId = userId;
-    this.foodName = foodName;
-    this.foodQuantity = foodQuantity;
   }
 
   /**

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -181,6 +183,38 @@ public class FridgeServiceTests {
     list.add(food2);
 
     assertEquals(list.toString(), fridge.getFridge(1L).toString());
+  }
+
+  @Test
+  void testGetRecipe() throws Exception {
+    FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
+
+    JSONArray result = fridge.getRecipe("chocolate,flour,sugar");
+    ArrayList<String> actualResult = new ArrayList<>();
+    for(int i = 0; i < result.size(); i++){
+      JSONObject obj = (JSONObject)result.get(i);
+      actualResult.add(obj.get("title").toString());
+    }
+
+    ArrayList<String> expectedResult = new ArrayList<>();
+    expectedResult.add("Gâteau au Chocolat Fondant de Nathalie");
+    expectedResult.add("Caramel Chocolate Shortbread");
+    expectedResult.add("PAIN AU CHOCOLAT");
+    expectedResult.add("Chocolate Melting Cake");
+    expectedResult.add("Baci di dama");
+
+    System.out.println("actual: " + actualResult);
+    System.out.println("expected: " + expectedResult);
+    assertEquals(expectedResult.toString(), actualResult.toString());
+  }
+
+  @Test
+  void testGetRecipeLink() throws Exception {
+    FridgeService fridge = new FridgeService(fridgeRepository, userRepository);
+    String urlResult = fridge.getRecipeLink(555451L).get("sourceUrl").toString();
+    String expectedResult = "http://thecornerkitchenblog.com/gateau-au-chocolat-fondant-de-nathalie/";
+    assertEquals(expectedResult, urlResult);
+
   }
 
 }
