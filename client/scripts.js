@@ -246,9 +246,16 @@ function deleteUser(){
     var xmlhttp = new XMLHttpRequest();
     if (confirm('Are you sure you want to delete your account?')) {
         xmlhttp.open("DELETE", baseurl + "/delete-user/" + userId, true);
-        xmlhttp.send();
-        window.location.reload();
+        xmlhttp.onreadystatechange = function() {
+            if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+                var response = JSON.parse(xmlhttp.responseText);
+                if(response == true){
+                    window.location.reload();
+                }
+            }
+        };
     }
+    xmlhttp.send();
 }
 
 function editFoodForm(button){
