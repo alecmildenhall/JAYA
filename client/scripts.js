@@ -347,9 +347,9 @@ function getRecipesForm(){
     document.getElementById("getRecipesForm").style.display = "block";
     var getrec = `
     <label for=foodName1>Which foods would you like a recipe for?</label>
-    <br><input id = "recipieInputs" type=text id=foodName1><br>
-    <br><input id = "recipieInputs" type=text id=foodName2><br>
-    <br><input id = "recipieInputs" type=text id=foodName3><br>
+    <br><input type=text id="foodName1"><br>
+    <br><input type=text id="foodName2"><br>
+    <br><input type=text id="foodName3"><br>
     <input class = "button-11" type="submit" onclick="collapseGetRecipesForm(this);" />
     <p>OR</p>
     <button id="getRecipesAll" class = "button-37" onclick= getAllFood();>Get Recipes for all Ingredients in your fridge</button>
