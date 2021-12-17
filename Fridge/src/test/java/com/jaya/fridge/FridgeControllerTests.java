@@ -126,10 +126,4 @@ public class FridgeControllerTests {
         .andExpect(content().json("{\"userId\": 1, \"foodQuantity\": 42, \"coreQuantity\": 5, \"foodName\": \"cherry\"}"));
    }
 
-//    @Test
-//    void getRecipeTest(@Autowired MockMvc mvc) throws Exception {
-//         mvc.perform(get("/api/v1/fridge/get-recipe/ingredients/lemon,sugar"))
-//         .andExpect(status().isOk())
-//         .andExpect(jsonPath("$", hasSize(5)));
-//    }
 }
